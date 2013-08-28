@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-BOX_NAME = "CentOS6.4-x86-minimal"
+BOX_NAME = "CentOS6.4-x86-64-minimal"
 
 Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -22,7 +22,7 @@ Vagrant.configure("2") do |config|
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
-  config.vm.network :private_network, ip: "192.168.56.101"
+  config.vm.network :private_network, ip: "192.168.56.103"
 
   # Create a public network, which generally matched to bridged network.
   # Bridged networks make the machine appear as another physical device on
@@ -45,7 +45,7 @@ Vagrant.configure("2") do |config|
      vb.name = BOX_NAME
      vb.customize ["modifyvm", :id, "--memory", "2048"]
      vb.customize ["modifyvm", :id, "--cpus", "2"]
- 
+
      # Use VBoxManage to customize the VM. For example to change memory:
    end
   #

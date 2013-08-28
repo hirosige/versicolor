@@ -2,9 +2,9 @@
   "builders": [
     {
       "type": "virtualbox",
-      "vm_name": "CentOS6.4-x86_minimal",
+      "vm_name": "box",
       "boot_wait": "10s",
-      "disk_size": 40520,
+      "disk_size": 512000,
       "guest_os_type": "RedHat_64",
       "iso_checksum": "4a5fa01c81cc300f4729136e28ebe600",
       "iso_checksum_type": "md5",
@@ -34,6 +34,22 @@
       "boot_command": [
         "<tab> text ks=http://{{ .HTTPIP }}:{{ .HTTPPort }}/ks.cfg<enter><wait>"
       ]
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "scripts": [
+        "packer/provisioners/base.sh",
+        "packer/provisioners/vagrant.sh",
+        "packer/provisioners/virtualbox.sh",
+        "packer/provisioners/cleanup.sh"
+      ],
+      "override": {
+        "virtualbox": {
+          "execute_command": "echo 'vagrant'|sudo -S sh '{{.Path}}'"
+        }
+      }
     }
   ],
   "post-processors": [
