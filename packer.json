@@ -43,6 +43,7 @@
         "packer/provisioners/base.sh",
         "packer/provisioners/vagrant.sh",
         "packer/provisioners/virtualbox.sh",
+        "packer/provisioners/ansible.sh",
         "packer/provisioners/cleanup.sh"
       ],
       "override": {
