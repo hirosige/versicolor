@@ -10,3 +10,6 @@ git clone https://github.com/ansible/ansible.git
 cd ansible
 make
 make install
+
+# ansible localhost settings
+echo "export ANSIBLE_HOSTS=/vagrant/ansible_hosts" > /etc/profile.d/ansible.sh
