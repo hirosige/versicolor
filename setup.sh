@@ -87,3 +87,4 @@ vagrant destroy --force
 box_destroy
 
 packer build -only=virtualbox packer.json
+vagrant up
