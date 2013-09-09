@@ -29,12 +29,12 @@ requirement_tool_filter() {
     fi
 
     command=$(vagrant plugin list | grep vagrant-vbguest | awk '{print $1}')
-____
+
     if [ ! "${command}" = "vagrant-vbguest" ]; then
         echo "vagrant-vbguestプラグインがインストールされていませんのでインストールを行います"
         vagrant plugin install vagrant-vbguest
     fi
-____
+
     command=$(vagrant plugin list | grep sahara | awk '{print $1}')
 
     if [ ! "${command}" = "sahara" ]; then
