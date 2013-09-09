@@ -79,6 +79,7 @@ box_destroy() {
 #
 requirement_tool_filter
 git clone "${git_url}"
+cd versicolor
 mkdir_synced_folder
 
 vagrant destroy --force
