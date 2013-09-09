@@ -3,6 +3,7 @@
 set -e
 
 git_url="https://github.com/ryurock/versicolor.git"
+repo_name="versicolor"
 
 #
 # 必要なツール等の確認フィルター
@@ -79,7 +80,7 @@ box_destroy() {
 #
 requirement_tool_filter
 git clone "${git_url}"
-cd versicolor
+cd "${repo_name}"
 mkdir_synced_folder
 
 vagrant destroy --force
