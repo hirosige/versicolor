@@ -1,4 +1,4 @@
-ansible-playbooks
+versicolor
 =================
 
-My Ansible playbooks — An idea, a fix, etc. you can send me a PR
+My DevOps repos - An idea, afix, etc. you can send me a PullRequest
