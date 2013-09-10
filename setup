@@ -12,7 +12,7 @@ requirement_tool_filter() {
     local command=""
     local command_ver=""
 
-    # OSXの場合
+    # OS from OSX
     if [ `uname` = "Darwin" ]; then
         # Homebrew install
         if ! which brew >/dev/null 2>&1; then
@@ -36,6 +36,21 @@ requirement_tool_filter() {
             echo "[Install] Already exists dependency Git"
         fi
 
+        # VirtualBox
+        if ! which VBoxManage >/dev/null 2>&1; then
+            echo "[Install] dependency VirtualBox"
+            curl -O http://dlc.sun.com.edgesuite.net/virtualbox/4.2.18/VirtualBox-4.2.18-88780-OSX.dmg
+            hdiutil mount VirtualBox-4.2.18-88780-OSX.dmg
+            sudo installer -pkg /Volumes/VirtualBox/VirtualBox.pkg -target "/Volumes/Macintosh HD"
+
+            command_ver=$(VBoxManage --version)
+            command=$(which VBoxManage)
+            echo "[Install] installed VirtualBox. path : ${comand} version : ${command_ver}"
+            rm VirtualBox-4.2.18-88780-OSX.dmg
+        else
+            echo "[Install] Already exists dependency VirtualBox"
+        fi
+
         # vagrant install
         if ! which vagrant >/dev/null 2>&1; then
             echo "[Install] dependency Vagrant"
@@ -45,6 +60,7 @@ requirement_tool_filter() {
             command_ver=$(vagrant --version)
             command=$(which vagrant)
             echo "[Install] installed Vagrant. path : ${comand} version : ${command_ver}"
+            rm Vagrant.dmg
         else
             echo "[Install] Already exists dependency vagrant"
         fi
