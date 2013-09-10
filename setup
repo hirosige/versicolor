@@ -46,7 +46,7 @@ requirement_tool_filter() {
             command_ver=$(VBoxManage --version)
             command=$(which VBoxManage)
             echo "[Install] installed VirtualBox. path : ${comand} version : ${command_ver}"
-            rm VirtualBox-4.2.18-88780-OSX.dmg
+            rm -f VirtualBox-4.2.18-88780-OSX.dmg
         else
             echo "[Install] Already exists dependency VirtualBox"
         fi
@@ -60,7 +60,7 @@ requirement_tool_filter() {
             command_ver=$(vagrant --version)
             command=$(which vagrant)
             echo "[Install] installed Vagrant. path : ${comand} version : ${command_ver}"
-            rm Vagrant.dmg
+            rm -f Vagrant.dmg
         else
             echo "[Install] Already exists dependency vagrant"
         fi
