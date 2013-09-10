@@ -8,5 +8,5 @@ My DevOps repos - An idea, afix, etc. you can send me a PullRequest
 ### OSX
 
 ```
-curl https://raw.github.com/ryurock/versicolor/master/setup.sh | sh -
+curl https://raw.github.com/ryurock/versicolor/master/setup | sh -
 ```
