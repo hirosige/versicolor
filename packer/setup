@@ -115,8 +115,8 @@ mkdir_synced_folder() {
     local command=$(cat ${pwd}/Vagrantfile | grep 'config.vm.synced_folder' | awk '{print $2}' | sed -e "s/,//g" | sed -e 's/"//g')
 
     if [ ! -e "${command}" ]; then
-        mkdir -p "${pwd}${command}"
-        touch "${pwd}${command}/.gitignore"
+        mkdir -p "${pwd}/${command}"
+        touch "${pwd}/${command}/.gitignore"
     fi
 }
 
@@ -146,5 +146,4 @@ vagrant destroy --force
 box_destroy
 cd packer
 packer build -only=virtualbox packer.json
-cd ../
-vagrant up
+echo "packer build Finish!! Next Step is cd versiclor; vagrant up"
