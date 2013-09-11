@@ -112,9 +112,8 @@ requirement_tool_filter() {
 #
 mkdir_synced_folder() {
     local pwd=$(pwd)
-    echo ${pwd}
-    local command=$(cat ${pwd}/../Vagrantfile | grep 'config.vm.synced_folder' | awk '{print $2}' | sed -e "s/,//g" | sed -e 's/"//g')
-    echo ${command}
+    local command=$(cat ${pwd}/Vagrantfile | grep 'config.vm.synced_folder' | awk '{print $2}' | sed -e "s/,//g" | sed -e 's/"//g')
+
     if [ ! -e "${command}" ]; then
         mkdir -p "../${command}"
         touch "../${command}/.gitignore"
@@ -125,7 +124,8 @@ mkdir_synced_folder() {
 # Already Box Destroy Method
 #
 box_destroy() {
-    local command=$(cat ../Vagrantfile | grep 'BOX_NAME =' | awk '{print $3}' | sed -e 's/"//g')
+    local pwd=$(pwd)
+    local command=$(cat ${pwd}/Vagrantfile | grep 'BOX_NAME =' | awk '{print $3}' | sed -e 's/"//g')
 
     if [ -e "~/.vagrant.d/boxes/${command}/virtualbox" ]; then
         rm -rf "~/.vagrant.d/boxes/${command}/virtualbox"
