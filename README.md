@@ -19,18 +19,11 @@ I can start very easily that versicolor to command one run
 
 ```
 curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -
+cd versicolor
+vagrant up
+curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -
+vagrant ssh
 ```
 
 
 ## Usage 
-
-## Memo
-
-### VagrantのSSHプライベートキー
-
-https://github.com/mitchellh/vagrant/blob/master/keys/vagrant
-
-```
-curl https://raw.github.com/mitchellh/vagrant/master/keys/vagrant > ~/.ssh/id_rsa; chmod 600 ~/.ssh/id_rsa; ssh-agent bash; ssh-add ~/.ssh/id_rsa
-```
-
