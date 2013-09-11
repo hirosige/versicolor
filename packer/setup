@@ -111,8 +111,10 @@ requirement_tool_filter() {
 # Create Synced Folder method
 #
 mkdir_synced_folder() {
-    local command=$(cat ../Vagrantfile | grep 'config.vm.synced_folder' | awk '{print $2}' | sed -e "s/,//g" | sed -e 's/"//g')
-
+    local pwd=$(pwd)
+    echo ${pwd}
+    local command=$(cat ${pwd}/../Vagrantfile | grep 'config.vm.synced_folder' | awk '{print $2}' | sed -e "s/,//g" | sed -e 's/"//g')
+    echo ${command}
     if [ ! -e "${command}" ]; then
         mkdir -p "../${command}"
         touch "../${command}/.gitignore"
