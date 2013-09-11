@@ -9,5 +9,8 @@ wget --no-check-certificate 'https://raw.github.com/mitchellh/vagrant/master/key
 chmod 0600 /home/vagrant/.ssh/id_rsa
 chown -R vagrant:vagrant /home/vagrant/.ssh
 
+ssh-agent bash
+ssh-add /home/vagrant/.ssh/id_rsa
+
 # Customize the message of the day
 echo 'Welcome to your Vagrant-built virtual machine.' > /etc/motd
