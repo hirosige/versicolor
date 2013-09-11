@@ -115,8 +115,8 @@ mkdir_synced_folder() {
     local command=$(cat ${pwd}/Vagrantfile | grep 'config.vm.synced_folder' | awk '{print $2}' | sed -e "s/,//g" | sed -e 's/"//g')
 
     if [ ! -e "${command}" ]; then
-        mkdir -p "../${command}"
-        touch "../${command}/.gitignore"
+        mkdir -p "${pwd}${command}"
+        touch "${pwd}${command}/.gitignore"
     fi
 }
 
