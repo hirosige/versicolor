@@ -18,7 +18,7 @@ My DevOps repos - An idea, afix, etc. you can send me a PullRequest
 I can start very easily that versicolor to command one run
 
 ```
-curl https://raw.github.com/ryurock/versicolor/master/setup | sh -
+curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -
 ```
 
 
