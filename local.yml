@@ -1,0 +1,6 @@
+- hosts: LOCAL
+  sudo: yes
+  roles:
+    - { role: yum/remi }
+    - { role: yum/rpmforge }
+    - { role: ruby/rbenv }

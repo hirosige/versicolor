@@ -1,2 +1,3 @@
-# file: site.yml
+- include: common.yml
+- include: local.yml
 - include: webservers.yml

@@ -1,0 +1,12 @@
+- name: Create rbenv group
+  group: name=rbenv state=present
+
+- name: User add rbenv group
+  user: name={{ item.name }} groups={{ item.groups.1 }},{{ item.groups.2 }}
+  with_items:
+    - { name: "vagrant", 
+        groups: { 
+          1: "rbenv",
+          2: "wheel"
+        } 
+      }

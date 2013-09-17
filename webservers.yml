@@ -1,9 +1,4 @@
-# common playbooks
 - hosts: LOCAL
   sudo: yes
   roles:
-    - { role: sshd }
-    - { role: yum/epel }
-    - { role: yum/remi }
-    - { role: yum/rpmforge }
 
