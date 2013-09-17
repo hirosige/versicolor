@@ -25,5 +25,10 @@ curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -
 vagrant ssh
 ```
 
+or command oneliner
+
+```
+curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -; cd versicolor; vagrant up; curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -;
+```
 
 ## Usage 
