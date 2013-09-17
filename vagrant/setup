@@ -8,3 +8,5 @@ ip_address=$(cat ${pwd}/Vagrantfile | grep 'config.vm.network :private_network, 
 scp -P 22 -i ~/.vagrant.d/insecure_private_key  ~/.vagrant.d/insecure_private_key vagrant@${ip_address}:/home/vagrant/.ssh/id_rsa
 ssh -i ~/.vagrant.d/insecure_private_key vagrant@${ip_address} chmod 0600 /home/vagrant/.ssh/id_rsa
 ssh -i ~/.vagrant.d/insecure_private_key vagrant@${ip_address} chown -R vagrant:vagrant /home/vagrant/.ssh/id_rsa
+echo "Finish vagrant setup. Using to this Command"
+echo "vagrant ssh"

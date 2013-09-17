@@ -3,5 +3,5 @@
   tags: remi
 
 - name: Create the GPG key for remi
-  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+  copy: src=RPM-GPG-KEY-remi dest=/etc/pki/rpm-gpg
   tags: remi

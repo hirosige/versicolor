@@ -2,5 +2,7 @@
 - hosts: LOCAL
   sudo: yes
   roles:
-    - { role: yum_repos }
+    - { role: repo_epel }
+    - { role: repo_remi }
+    - { role: repo_rpmforge }
 
