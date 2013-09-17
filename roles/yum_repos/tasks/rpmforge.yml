@@ -1,0 +1,11 @@
+- name: Create the repository for rpmforge
+  copy: src=rpmforge.repo dest=/etc/yum.repos.d/rpmforge.repo
+  tags: rpmforge
+
+- name: Create the GPG key for rpmforge-dag
+  copy: src=RPM-GPG-KEY-rpmforge-dag dest=/etc/pki/rpm-gpg
+  tags: rpmforge
+
+- name: Create the GPG key for rpmforge-fabian
+  copy: src=RPM-GPG-KEY-rpmforge-fabian dest=/etc/pki/rpm-gpg
+  tags: rpmforge

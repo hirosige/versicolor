@@ -1,0 +1,7 @@
+- name: Create the repository for remi
+  copy: src=remi.repo dest=/etc/yum.repos.d/remi.repo
+  tags: remi
+
+- name: Create the GPG key for remi
+  copy: src=RPM-GPG-KEY-EPEL-6 dest=/etc/pki/rpm-gpg
+  tags: remi

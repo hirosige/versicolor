@@ -1,0 +1,7 @@
+[remi]
+name=Les RPM de remi pour Enterprise Linux 6.4 - $basearch
+mirrorlist=http://rpms.famillecollet.com/enterprise/6/remi/mirror
+failovermethod=priority
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-remi

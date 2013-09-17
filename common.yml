@@ -1,0 +1,6 @@
+# common playbooks
+- hosts: LOCAL
+  sudo: yes
+  roles:
+    - { role: yum_repos }
+

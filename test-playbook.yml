@@ -1,4 +1,4 @@
-- hosts: local
+- hosts: LOCAL
   user: vagrant
   sudo: yes
   tasks:
