@@ -32,3 +32,18 @@ curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -; cd ve
 ```
 
 ## Usage 
+
+1. Using to Vagrant Login.
+```
+vagrant ssh
+```
+
+1. check Ansible Ping
+```
+ansible local -i local -m ping
+```
+
+1. Using Ansible Playbook(test-playbook.yml)
+```
+ansible-playbook -i local test-playbook.yml
+```
