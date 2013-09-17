@@ -1,0 +1,6 @@
+- hosts: local
+  user: vagrant
+  sudo: yes
+  tasks:
+    - name: check wget
+      action: yum pkg=wget state=installed

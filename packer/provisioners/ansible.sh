@@ -12,4 +12,4 @@ make
 make install
 
 # ansible localhost settings
-echo "export ANSIBLE_HOSTS=/vagrant/ansible_hosts" > /etc/profile.d/ansible.sh
+echo "export ANSIBLE_HOSTS=/vagrant/local" > /etc/profile.d/ansible.sh
