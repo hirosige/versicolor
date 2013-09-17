@@ -5,6 +5,6 @@
 - name: Install sshd-clients
   yum: pkg=openssh-clients state=installed
   notify:
-    - start sshd
+    - running sshd
   tags: sshd
 
