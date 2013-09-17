@@ -25,5 +25,25 @@ curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -
 vagrant ssh
 ```
 
+or command oneliner
+
+```
+curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -; cd versicolor; vagrant up; curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -;
+```
 
 ## Usage 
+
+1. Using to Vagrant Login.
+```
+vagrant ssh
+```
+
+1. check Ansible Ping
+```
+ansible LOCAL -i local -m ping
+```
+
+1. Using Ansible Playbook(test-playbook.yml)
+```
+ansible-playbook -i local test-playbook.yml
+```
