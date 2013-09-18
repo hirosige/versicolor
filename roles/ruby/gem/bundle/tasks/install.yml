@@ -1,0 +1,11 @@
+- name: Gem Install bundle
+  shell: |
+    if [ -x "`which rbenv`" ]; then
+      source /etc/profile.d/rbenv.sh
+    fi
+
+    gem install bundle
+
+    if [ -x "`which rbenv`" ]; then
+      rbenv reahsh
+    fi

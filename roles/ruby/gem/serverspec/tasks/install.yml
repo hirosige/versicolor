@@ -1,0 +1,17 @@
+- name: Gem Install serverspec
+  shell: |
+    if [ -x "`which rbenv`" ]; then
+      source /etc/profile.d/rbenv.sh
+    fi
+
+    echo "bundle command"
+    bundle install
+
+    if [ -x "`which rbenv`" ]; then
+      rbenv reahsh
+    fi
+    chdir=/vagrant
+  register: result
+
+- debug: msg={{ result.stdout }}
+
