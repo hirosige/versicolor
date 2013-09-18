@@ -1,0 +1,6 @@
+- name: Git Clone ruby-build Plugin
+  git: repo=https://github.com/sstephenson/ruby-build.git
+       dest=/usr/local/rbenv/plugins/ruby-build
+
+- name: ruby-build Dir change group
+  file: path=/usr/local/rbenv/plugins/ruby-build group=rbenv mode=0775 state=directory recurse=yes

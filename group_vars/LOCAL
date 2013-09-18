@@ -1,1 +1,3 @@
-rbenvUser: vagrant
+rbenvUser:
+  - vagrant
+  - group: rbenv,wheel

@@ -2,11 +2,18 @@
   group: name=rbenv state=present
 
 - name: User add rbenv group
-  user: name={{ item.name }} groups={{ item.groups.1 }},{{ item.groups.2 }}
-  with_items:
-    - { name: "vagrant", 
-        groups: { 
-          1: "rbenv",
-          2: "wheel"
-        } 
-      }
+  user: name={{ rbenvUser[0] }} groups={{ rbenvUser[1].group }}
+
+- name: Git Clone rbebv
+  git: repo=https://github.com/sstephenson/rbenv.git
+       dest=/usr/local/rbenv
+
+- name: rbenv Create Plugin Dir
+  file: path=/usr/local/rbenv/plugins group=rbenv mode=0775 state=directory
+
+
+- name: rbenv Dir change group
+  file: path=/usr/local/rbenv group=rbenv mode=0775 state=directory recurse=yes
+
+- name: rbenv profile Settings
+  template: src=rbenv.j2 dest=/etc/profile.d/rbenv.sh mode=0644
