@@ -1,3 +1,6 @@
+- name: Gemfile Set Current Dir
+  template: src=Gemfile.j2 dest={{ currentDir }}/Gemfile mode=0775
+
 - name: Gem Install serverspec
   shell: |
     source /etc/bashrc
