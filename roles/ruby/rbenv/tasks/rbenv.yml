@@ -7,6 +7,7 @@
 - name: Git Clone rbebv
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/usr/local/rbenv
+       update=no
 
 - name: rbenv Create Plugin Dir
   file: path=/usr/local/rbenv/plugins group=rbenv mode=0775 state=directory

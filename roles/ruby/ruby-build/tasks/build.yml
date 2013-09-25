@@ -1,7 +1,3 @@
-#- name: Install Ruby from rbenv With ruby-build 
-#  shell: source /etc/profile.d/rbenv.sh; rbenv install {{ rubyBuildVersion }}
-#  register: a
-
 - name: Install Ruby from rbenv With ruby-build
   shell: |
     source /etc/profile.d/rbenv.sh
@@ -19,4 +15,4 @@
     rbenv global {{ rubyBuildVersion }}
     rbenv rehash
 
-#- debug: msg="{{ result.stdout }}"
+- debug: msg="{{ result.stdout }}"
