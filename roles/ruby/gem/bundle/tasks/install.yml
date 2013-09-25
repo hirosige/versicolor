@@ -1,11 +1,14 @@
 - name: Gem Install bundle
   shell: |
-    if [ -x "`which rbenv`" ]; then
-      source /etc/profile.d/rbenv.sh
+    source /etc/bashrc
+
+    if [ ! $(gem list | gem list | awk '/^bundler/{print $1}') ]; then
+      gem install  bundle --no-ri --no-rdoc
+    else
+      echo "skipped"
     fi
 
-    gem install bundle
+    chdir="{{ currentDir }}"
+  register: result
 
-    if [ -x "`which rbenv`" ]; then
-      rbenv reahsh
-    fi
+#- debug: msg="{{ result }}"

@@ -1,3 +1,4 @@
 rbenvUser:
   - vagrant
   - group: rbenv,wheel
+currentDir: /vagrant

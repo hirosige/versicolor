@@ -6,4 +6,4 @@
     - { role: ruby/rbenv }
     - { role: ruby/ruby-build }
     - { role: ruby/gem/bundle }
-    - { role: ruby/gem/serverspec }
+#    - { role: ruby/gem/serverspec }
