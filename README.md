@@ -22,7 +22,6 @@ curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -
 cd versicolor
 vagrant up
 curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -
-vagrant ssh
 ```
 
 or command oneliner
@@ -40,10 +39,21 @@ vagrant ssh
 
 1. check Ansible Ping
 ```
-ansible LOCAL -i local -m ping
+ansible LOCAL -i inventries/local -m ping
 ```
 
 1. Using Ansible Playbook(test-playbook.yml)
 ```
-ansible-playbook -i local test-playbook.yml
+ansible-playbook -i ansible/inventory/local ansible/test-playbook.yml 
+```
+
+1. Using Ansible Playbook(main)
+```
+ansible-playbook -i ansible/inventory/local ansible/site.yml 
+```
+
+1. Using Serverspec
+```
+cd serverspec
+rake spec
 ```
