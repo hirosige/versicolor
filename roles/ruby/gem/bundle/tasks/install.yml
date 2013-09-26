@@ -1,14 +1,11 @@
-- name: Gem Install bundle
+- name: Check Install bundle
+  shell: source /etc/profile; gem list | awk '/^bundler/{print $1}'
   shell: |
-    source /etc/bashrc
-
-    if [ ! $(gem list | gem list | awk '/^bundler/{print $1}') ]; then
-      gem install  bundle --no-ri --no-rdoc
-    else
-      echo "skipped"
-    fi
-
-    chdir="{{ currentDir }}"
   register: result
+  changed_when: result.stdout.find('bundler') != 0
+
+- name: Install RubyGems Bundle
+  shell: source /etc/profile; gem install bundle --no-ri --no-rdoc
+  when: result.stdout.find('bundler') != 0
 
 #- debug: msg="{{ result }}"
