@@ -1,5 +1,0 @@
-- hosts: LOCAL
-  sudo: yes
-  roles:
-    - { role: sshd }
-    - { role: yum/epel }

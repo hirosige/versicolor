@@ -1,4 +1,0 @@
-- hosts: LOCAL
-  sudo: yes
-  roles:
-

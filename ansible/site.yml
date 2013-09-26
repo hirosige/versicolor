@@ -1,3 +1,17 @@
-- include: common.yml
-- include: local.yml
-- include: webservers.yml
+- hosts: all
+  sudo: yes
+  roles:
+    - { role: sshd }
+    - { role: yum/epel }
+- hosts: LOCAL
+  sudo: yes
+  roles:
+    - { role: yum/remi }
+    - { role: yum/rpmforge }
+    - { role: ruby/rbenv }
+    - { role: ruby/ruby-build }
+    - { role: ruby/gem/bundle }
+    - { role: ruby/bundle }
+- hosts: LOCAL
+  sudo: yes
+  roles:
