@@ -1,6 +1,5 @@
 - name: Check Install bundle
   shell: source /etc/profile; gem list | awk '/^bundler/{print $1}'
-  shell: |
   register: result
   changed_when: result.stdout.find('bundler') != 0
 
