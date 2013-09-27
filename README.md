@@ -44,12 +44,12 @@ ansible LOCAL -i inventries/local -m ping
 
 1. Using Ansible Playbook(test-playbook.yml)
 ```
-ansible-playbook -i ansible/inventory/local ansible/test-playbook.yml 
+ansible-playbook -i ansible/inventories/local ansible/test-playbook.yml 
 ```
 
 1. Using Ansible Playbook(main)
 ```
-ansible-playbook -i ansible/inventory/local ansible/site.yml 
+ansible-playbook -i ansible/inventories/local ansible/site.yml 
 ```
 
 1. Using Serverspec
