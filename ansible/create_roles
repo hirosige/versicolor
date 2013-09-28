@@ -1,0 +1,6 @@
+#!/usr/bin/env bash
+#
+set -e
+
+mkdir files templates vars tasks handlers
+touch files/.gitignore templates/.gitignore vars/.gitignore tasks/main.yml handlers/.gitignore
