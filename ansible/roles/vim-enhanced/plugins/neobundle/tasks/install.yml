@@ -16,5 +16,5 @@
 
 # dotfileからneobundleを含むdotfileを取得する
 - name: .vimrc from dotfiles
-  get_url: url=https://raw.github.com/ryurock/dotfiles/master/.vimrc dest=/home/{{ ansible_env.SUDO_USER }}/.vimrc force=yes
+  template: src=vimrc.j2 dest=/home/{{ ansible_env.SUDO_USER }}/.vimrc mode=0644
   tags: vim-enhanced
