@@ -1,1 +1,4 @@
 rubyBuildVersion: 2.0.0-p247
+rbenvGroup: rbenv,wheel
+currentDir: /vagrant
+

@@ -1,6 +1,4 @@
-rbenvUser:
-  - vagrant
-  - group: rbenv,wheel
+rbenvGroup: rbenv,wheel
 currentDir: /vagrant
 git:
   user: ryurock

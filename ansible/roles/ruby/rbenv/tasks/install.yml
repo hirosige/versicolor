@@ -2,7 +2,7 @@
   group: name=rbenv state=present
 
 - name: User add rbenv group
-  user: name={{ rbenvUser[0] }} groups={{ rbenvUser[1].group }}
+  user: name={{ ansible_env.SUDO_USER }} groups={{ rbenvGroup }}
 
 - name: Git Clone rbebv
   git: repo=https://github.com/sstephenson/rbenv.git
