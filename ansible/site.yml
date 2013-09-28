@@ -8,6 +8,7 @@
   roles:
     - { role: yum/remi }
     - { role: yum/rpmforge }
+    - { role: vim-enhanced/install }
     - { role: ruby/rbenv }
     - { role: ruby/ruby-build }
     - { role: ruby/gem/bundle }
