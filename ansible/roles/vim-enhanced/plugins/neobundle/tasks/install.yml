@@ -1,0 +1,20 @@
+- name: neobundle Create Dir
+  file: path=/home/{{ ansible_env.SUDO_USER }}/.vim/bundle state=directory owner={{ ansible_env.SUDO_USER }} mode=0775
+  tags: vim-enhanced
+
+- name: Git Clone neobundle
+  git: repo=https://github.com/Shougo/neobundle.vim
+       dest=/home/{{ ansible_env.SUDO_USER }}/.vim/bundle/neobundle.vim
+       update=no
+  tags: vim-enhanced
+
+- name: Git Clone vimproc
+  git: repo=https://github.com/Shougo/vimproc
+       dest=/home/{{ ansible_env.SUDO_USER }}/.vim/bundle/vimproc
+       update=no
+  tags: vim-enhanced
+
+# dotfileからneobundleを含むdotfileを取得する
+- name: .vimrc from dotfiles
+  get_url: url=https://raw.github.com/ryurock/dotfiles/master/.vimrc dest=/home/{{ ansible_env.SUDO_USER }}/.vimrc force=yes
+  tags: vim-enhanced

@@ -9,6 +9,7 @@
     - { role: yum/remi }
     - { role: yum/rpmforge }
     - { role: vim-enhanced/install }
+    - { role: vim-enhanced/plugins/neobundle }
     - { role: ruby/rbenv }
     - { role: ruby/ruby-build }
     - { role: ruby/gem/bundle }
