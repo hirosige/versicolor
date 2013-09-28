@@ -2,3 +2,6 @@ rbenvUser:
   - vagrant
   - group: rbenv,wheel
 currentDir: /vagrant
+git:
+  user: ryurock
+  email: ryusukekimura3@gmail.com
