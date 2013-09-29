@@ -16,7 +16,7 @@
     - { role: ruby/bundle }
     - { role: git }
     - { role: java/openjdk }
-    #- { role: jenkins/install }
+    - { role: jenkins/install }
 
 - hosts: LOCAL
   sudo: yes

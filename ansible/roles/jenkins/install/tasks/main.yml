@@ -1,0 +1,13 @@
+- name: Create the repository for Jenkins
+  copy: src=jenkins.repo dest=/etc/yum.repos.d/jenkins.repo
+  tags: jenkins
+
+- name: Added Jenkins RPM Key
+  rpm_key: state=present key=http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+  tags: jenkins
+
+- name: Jenkins Install
+  yum: pkg=jenkins state=installed
+  notify:
+    - running jenkins
+  tags: jenkins
