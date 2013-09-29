@@ -2,5 +2,30 @@
 #
 set -e
 
-mkdir files templates vars tasks handlers
-touch files/.gitignore templates/.gitignore vars/.gitignore tasks/main.yml handlers/.gitignore
+if [ $# -ne 1 ]; then
+  echo "Failed attach path"
+  exit 1
+fi
+
+path=$1
+
+# 新規にディレクトリを作成する
+if [ ! -e "${path}" ]; then
+  mkdir -p ${path}
+fi
+
+if [ ! -e "${path}/files" ]; then
+  mkdir ${path}/files
+fi
+
+if [ ! -e "${path}/templates" ]; then
+  mkdir ${path}/templates
+fi
+if [ ! -e "${path}/vars" ]; then
+  mkdir ${path}/vars
+fi
+if [ ! -e "${path}/handlers" ]; then
+  mkdir ${path}/handlers
+fi
+
+touch ${path}/files/.gitignore ${path}/templates/.gitignore ${path}/vars/.gitignore ${path}/tasks/main.yml ${path}/handlers/.gitignore
