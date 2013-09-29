@@ -1,0 +1,7 @@
+- name: Java-openjdk Install
+  yum: pkg=java-{{ jdkVersion }}-openjdk state=installed
+  tags: java-openjdk
+
+- name: Java-openjdk-devel Install
+  yum: pkg=java-{{ jdkVersion }}-openjdk-devel state=installed
+  tags: java-openjdk
