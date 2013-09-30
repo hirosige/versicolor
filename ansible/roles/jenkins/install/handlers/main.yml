@@ -1,2 +1,5 @@
 - name: running jenkins
   service: name=jenkins state=running
+
+- name: iptables restart
+  service: name=iptables state=restarted

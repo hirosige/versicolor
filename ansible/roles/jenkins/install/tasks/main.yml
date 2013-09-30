@@ -11,3 +11,20 @@
   notify:
     - running jenkins
   tags: jenkins
+
+- name: Exists File Iptables
+  shell:
+    if [ -e /etc/sysconfig/iptables ]; then
+      echo "1";
+    else
+      echo "0";
+    fi
+  register: result
+  changed_when: result.stdout.find('1') == 1
+
+- name: Chenged Iptables If Exists File Iptables
+  template: src=iptables.j2 dest=/etc/sysconfig/iptables
+  when: result.stdout.find('1') != 1
+  notify:
+    - iptables restart
+    - running jenkins
