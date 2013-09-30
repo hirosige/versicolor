@@ -1,0 +1,7 @@
+- name: Yammer Dependency plugins token-macro
+  copy: src=token-macro.hpi dest=/var/lib/jenkins/plugins/token-macro.hpi
+
+- name: Yammer plugins Install
+  copy: src=yammer.hpi dest=/var/lib/jenkins/plugins/yammer.hpi
+  notify:
+    - restarted jenkins

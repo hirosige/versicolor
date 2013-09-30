@@ -17,6 +17,8 @@
     - { role: git }
     - { role: java/openjdk }
     - { role: jenkins/install }
+    - { role: jenkins/plugins/rbenv }
+    - { role: jenkins/plugins/yammer }
 
 - hosts: LOCAL
   sudo: yes

@@ -1,0 +1,6 @@
+- name: rbenv Dependency plugins ruby-runtime
+  copy: src=ruby-runtime.hpi dest=/var/lib/jenkins/plugins/ruby-runtime.hpi
+- name: rbenv plugins Install
+  copy: src=rbenv.hpi dest=/var/lib/jenkins/plugins/rbenv.hpi
+  notify:
+    - restarted jenkins
