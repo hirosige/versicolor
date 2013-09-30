@@ -28,7 +28,7 @@ if [ ! -e "${path}/handlers" ]; then
   mkdir ${path}/handlers
 fi
 if [ ! -e "${path}/tasks" ]; then
-  mkdir ${path}/handlers
+  mkdir ${path}/tasks
 fi
 
 touch ${path}/files/.gitignore ${path}/templates/.gitignore ${path}/vars/.gitignore ${path}/tasks/main.yml ${path}/handlers/.gitignore
