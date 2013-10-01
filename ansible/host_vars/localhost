@@ -1,0 +1,6 @@
+git:
+  user: ryurock
+  email: ryusukekimura3@gmail.com
+iptables:
+  ports:
+   jenkins: 8080
