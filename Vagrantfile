@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "./packer/vagrant-boxes/CentOS-6.4-x86.box"
+  config.vm.box_url = "./packer/vagrant-boxes/" + BOX_NAME + ".box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
@@ -59,16 +59,16 @@ Vagrant.configure("2") do |config|
   #
   # An example Puppet manifest to provision the message of the day:
   #
-  # # group { "puppet":
-  # #   ensure => "present",
-  # # }
-  # #
-  # # File { owner => 0, group => 0, mode => 0644 }
-  # #
-  # # file { '/etc/motd':
-  # #   content => "Welcome to your Vagrant-built virtual machine!
-  # #               Managed by Puppet.\n"
-  # # }
+  # group { "puppet":
+  #   ensure => "present",
+  # }
+  #
+  # File { owner => 0, group => 0, mode => 0644 }
+  #
+  # file { '/etc/motd':
+  #   content => "Welcome to your Vagrant-built virtual machine!
+  #               Managed by Puppet.\n"
+  # }
   #
   # config.vm.provision :puppet do |puppet|
   #   puppet.manifests_path = "manifests"
