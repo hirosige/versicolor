@@ -1,0 +1,42 @@
+- name: Install dependency bzip2-devel
+  yum: name=bzip2-devel state=present
+  tags: python
+
+- name: Create pyenv group
+  group: name=pyenv state=present
+
+- name: User add pyenv group
+  user: name={{ ansible_env.SUDO_USER }} groups=pyenv
+
+- name: Git Clone pyenv
+  git: repo=git://github.com/yyuu/pyenv.git
+       dest=/usr/local/pyenv
+       update=no
+  tags: python
+
+- name: pyenv Dir change group
+  file: path=/usr/local/pyenv group=rbenv mode=0775 state=directory
+
+- name: pyenv Profile Settings
+  template: src=pyenv.sh.j2 dest=/etc/profile.d/pyenv.sh mode=0644
+  tags: python
+
+- name: Reload /etc/profile.d/*
+  shell: sh /etc/profile
+  tags: python
+
+- name: Check pyenv Version Installed
+  shell: source /etc/profile; pyenv versions | awk '/3.3.2/{print $2}'
+  register: result
+  changed_when: result.stdout.find('3.3.2') != 0
+
+- name: Install Python from pyenv
+  shell: source /etc/profile; pyenv install 3.3.2
+  when: result.stdout.find('3.3.2') != 0
+
+- name: Build pyenv change global
+  shell: source /etc/profile; pyenv global 3.3.2; pyenv rehash
+  when: result.stdout.find('python') != 0
+
+
+
