@@ -56,7 +56,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "vagrant-boxes/CentOS-6.4-x86_64-minimal.box"
+      "output": "vagrant-boxes/CentOS-6.4-x86_64.box"
     }
   ]
 }
