@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-BOX_NAME = "CentOS6.4-x86-64-minimal"
+BOX_NAME = "CentOS-6.4-x86"
 
 Vagrant.configure("2") do |config|
   # All Vagrant configuration is done here. The most common configuration
@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
   # The url from where the 'config.vm.box' box will be fetched if it
   # doesn't already exist on the user's system.
-  config.vm.box_url = "./packer/vagrant-boxes/CentOS-6.4-x86_64-minimal.box"
+  config.vm.box_url = "./packer/vagrant-boxes/CentOS-6.4-x86.box"
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
