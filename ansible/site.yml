@@ -20,7 +20,3 @@
     - { role: jenkins/plugins/rbenv }
     - { role: jenkins/plugins/yammer }
     - { role: python/pyenv }
-
-- hosts: LOCAL
-  sudo: yes
-  roles:
