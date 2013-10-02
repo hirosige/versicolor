@@ -1,0 +1,34 @@
+- name: Install dependency ImageMagick
+  yum: name={{ item }} state=present
+  with_items:
+    - libpng-devel
+    - libjpeg-devel
+  tags: imagemagick
+
+- name: downloads imagemagick
+  get_url: dest=/tmp/ImageMagick.tar.gz url=http://www.imagemagick.org/download/ImageMagick.tar.gz
+  tags: imagemagick
+
+- name: Check Already ImageMagick Extract Dir
+  stat: path=/usr/local/src/ImageMagick-6.8.7-0
+  register: st
+  tags: imagemagick
+
+- name: extract ImageMagick
+  shell: tar zxvf ImageMagick.tar.gz -C /usr/local/src/ chdir=/tmp
+  tags: imagemagick
+  when: st.stat.isdir is undefined
+
+- name: check whether Makefile has been already exist
+  stat: path=/usr/local/src/ImageMagick-6.8.7-0/Makefile
+  register: mfile
+  tags: imagemagick
+
+- name: Configure Make Make Install ImageMagick
+  shell: |
+    ./configure
+    make
+    make install
+    chdir=/usr/local/src/ImageMagick-6.8.7-0
+  when: mfile.stat.exists == false
+  tags: imagemagick
