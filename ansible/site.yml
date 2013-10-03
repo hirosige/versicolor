@@ -21,7 +21,3 @@
     - { role: jenkins/plugins/yammer }
     - { role: python/pyenv }
     - { role: imagemagick }
-
-- hosts: LOCAL
-  sudo: yes
-  roles:
