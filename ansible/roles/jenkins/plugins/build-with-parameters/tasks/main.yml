@@ -1,0 +1,4 @@
+- name: build-with-parameters plugins Install
+  copy: src=build-with-parameters.hpi dest=/var/lib/jenkins/plugins/build-with-parameters.hpi
+  notify:
+    - restarted jenkins

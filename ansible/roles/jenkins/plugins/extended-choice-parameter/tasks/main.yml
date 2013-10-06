@@ -1,0 +1,4 @@
+- name: extended-choice-parameter plugins Install
+  copy: src=extended-choice-parameter.hpi dest=/var/lib/jenkins/plugins/extended-choice-parameter.hpi
+  notify:
+    - restarted jenkins

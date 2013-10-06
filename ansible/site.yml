@@ -19,5 +19,7 @@
     - { role: jenkins/install }
     - { role: jenkins/plugins/rbenv }
     - { role: jenkins/plugins/yammer }
+    - { role: jenkins/plugins/build-with-parameters }
+    - { role: jenkins/plugins/extended-choice-parameter }
     - { role: python/pyenv }
     - { role: imagemagick }
