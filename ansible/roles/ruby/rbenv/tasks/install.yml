@@ -1,10 +1,16 @@
 - name: Create rbenv group
   group: name=rbenv state=present
 
+- name: Check rbenv Exists
+  shell: cat /etc/group | grep rbenv;
+  register: result
+  changed_when: result.stdout.find('rbenv') != 0
+
 - name: User add rbenv group
   user: name={{ ansible_env.SUDO_USER }} groups={{ rbenvGroup }}
+  changed_when: result.stdout.find('rbenv') != 0
 
-- name: Git Clone rbebv
+- name: Git Clone rbenv
   git: repo=https://github.com/sstephenson/rbenv.git
        dest=/usr/local/rbenv
        update=no
