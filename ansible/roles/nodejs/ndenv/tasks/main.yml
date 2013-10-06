@@ -1,0 +1,26 @@
+- name: Create ndenv group
+  group: name=ndenv state=present
+
+- name: Check ndenv Exists
+  shell: cat /etc/group | grep ndenv;
+  register: result
+  changed_when: result.stdout.find('ndenv') != 0
+
+- name: User add ndenv group
+  user: name={{ ansible_env.SUDO_USER }} groups={{ ndenvGroup }}
+  changed_when: result.stdout.find('ndenv') != 0
+
+- name: Git Clone ndenv
+  git: repo=https://github.com/riywo/ndenv.git
+       dest=/usr/local/ndenv
+       update=no
+
+- name: ndenv Create Plugin Dir
+  file: path=/usr/local/ndenv/plugins group=ndenv mode=0775 state=directory
+
+
+- name: ndenv Dir change group
+  file: path=/usr/local/ndenv group=ndenv mode=0775 state=directory
+
+- name: ndenv profile Settings
+  template: src=ndenv.j2 dest=/etc/profile.d/ndenv.sh mode=0644

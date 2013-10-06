@@ -1,0 +1,15 @@
+- name: Check ndenv Plugin node-build Installed
+  shell: source /etc/profile; ndenv versions | awk '/{{ nodeBuildVersion }}/{print $2}'
+  register: result
+  changed_when: result.stdout.find('{{ nodeBuildVersion }}') != 0
+
+#- debug: msg='{{ result.stdout.find('2.0.0-p247') }}'
+#- debug: msg='{{ result.changed }}'
+
+- name: Install NodeJs from ndenv With node-build
+  shell: source /etc/profile; ndenv install {{ nodeBuildVersion }}
+  when: result.stdout.find('{{ nodeBuildVersion }}') != 0
+
+- name: Build NodeJs change global
+  shell: source /etc/profile; ndenv global {{ nodeBuildVersion }}; ndenv rehash
+  when: result.stdout.find('{{ nodeBuildVersion }}') != 0

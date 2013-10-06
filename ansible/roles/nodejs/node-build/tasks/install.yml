@@ -1,0 +1,7 @@
+- name: Git Clone node-build Plugin
+  git: repo=https://github.com/riywo/node-build.git
+       dest=/usr/local/ndenv/plugins/node-build
+       update=no
+
+- name: node-build Dir change group
+  file: path=/usr/local/ndenv/plugins/node-build group=ndenv mode=0775 state=directory recurse=yes
