@@ -24,3 +24,4 @@
     - { role: python/pyenv }
     - { role: nodejs/ndenv }
     - { role: nodejs/node-build }
+    - { role: nodejs/npm/hubot }

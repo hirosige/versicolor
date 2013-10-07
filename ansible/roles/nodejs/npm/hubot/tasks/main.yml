@@ -1,0 +1,22 @@
+- name: Install Depencecy packages
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - redis
+  tags: hubot
+
+- name: start redis
+  service: name=redis state=started
+
+- name: Check npm module hubot
+  shell: source /etc/profile; which hubot | grep hubot
+  register: result
+  changed_when: result.stdout.find('hubot') == 0
+
+- debug: msg="{{ result.stdout }}"
+
+- name: npm install hubot and denpencecy modules
+  shell: source /etc/profile; npm install -g {{ item }}
+  with_items:
+    - hubot
+    - coffee-script
+  changed_when: result.stdout.find('hubot') == 0
