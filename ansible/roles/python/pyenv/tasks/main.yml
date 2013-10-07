@@ -5,8 +5,14 @@
 - name: Create pyenv group
   group: name=pyenv state=present
 
+- name: Check pyenv Exists
+  shell: cat /etc/group | grep pyenv;
+  register: result
+  changed_when: result.stdout.find('pyenv') != 0
+
 - name: User add pyenv group
   user: name={{ ansible_env.SUDO_USER }} groups=pyenv
+  changed_when: result.stdout.find('pyenv') != 0
 
 - name: Git Clone pyenv
   git: repo=git://github.com/yyuu/pyenv.git
@@ -19,10 +25,6 @@
 
 - name: pyenv Profile Settings
   template: src=pyenv.sh.j2 dest=/etc/profile.d/pyenv.sh mode=0644
-  tags: python
-
-- name: Reload /etc/profile.d/*
-  shell: sh /etc/profile
   tags: python
 
 - name: Check pyenv Version Installed
