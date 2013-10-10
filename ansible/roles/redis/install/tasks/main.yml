@@ -28,12 +28,8 @@
 - name: deploy redis.conf to /etc/redis/redis.conf
   template: src=redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644
 
-- name: add PATH
-  shell: |
-        echo "export PATH=$PATH:/usr/local/redis/bin" > /etc/profile.d/redis.sh
-        source /etc/profile.d/redis.sh
-        creates=/etc/profile.d/redis.sh
-  when: installed|failed
+- name: redis profile Settings
+  template: src=redis.sh.j2 dest=/etc/profile.d/redis.sh mode=0644
   tags: redis
 
 - name: running redis
