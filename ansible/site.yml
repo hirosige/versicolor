@@ -25,3 +25,4 @@
     - { role: nodejs/ndenv }
     - { role: nodejs/node-build }
     - { role: nodejs/npm/hubot }
+    - { role: redis/install }

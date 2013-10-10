@@ -1,0 +1,42 @@
+- name: check whether redis has been aleady installed
+  shell: |
+        [ -x /usr/local/redis/bin/redis-server ] && [ -x /usr/local/redis/bin/redis-cli ] && [ $(/usr/local/redis/bin/redis-cli --version|grep {{ redisVersion }} |wc -l) -gt 0 ]
+  register: installed
+  changed_when: false   #for suppress "changed"
+  ignore_errors: True
+  tags: redis
+
+- name: clone redis git repository
+  git: repo=https://github.com/antirez/redis.git
+       dest=/tmp/redis
+       version={{ redisVersion }}
+       force=yes
+  when: installed|failed
+  tags: redis
+
+- name: install redis
+  shell: |
+        cd /tmp/redis && make && make PREFIX=/usr/local/redis install
+        mkdir -p /var/lib/redis/data
+        mkdir -p /etc/redis
+  when: installed|failed
+  tags: redis
+
+- name: deploy init script to /etc/init.d/redis
+  template: src=redis.j2 dest=/etc/init.d/redis owner=root group=root mode=0755
+
+- name: deploy redis.conf to /etc/redis/redis.conf
+  template: src=redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644
+
+- name: add PATH
+  shell: |
+        echo "export PATH=$PATH:/usr/local/redis/bin" > /etc/profile.d/redis.sh
+        source /etc/profile.d/redis.sh
+        creates=/etc/profile.d/redis.sh
+  when: installed|failed
+  tags: redis
+
+- name: running redis
+  service: name=redis state=started
+  when: installed|failed
+  tags: redis
