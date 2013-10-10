@@ -26,3 +26,4 @@
     - { role: nodejs/node-build }
     - { role: nodejs/npm/hubot }
     - { role: redis/install }
+    - { role: pngquant/install }

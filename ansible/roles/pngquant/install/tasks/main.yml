@@ -1,0 +1,22 @@
+- name: Install dependency Pngquant
+  yum: name={{ item }} state=present
+  with_items:
+    - libpng-devel
+    - libpng
+  tags: pngquant
+
+- name: Git Clone pngquant
+  git: repo=https://github.com/pornel/pngquant.git
+       dest=/usr/local/src/pngquant
+       update=no
+  tags: pngquant
+
+- name: Check Already pngquant Extract Dir
+  stat: path=/usr/local/bin/pngquant
+  register: st
+  tags: pngquant
+
+- name: install pngquant
+  shell: cd /usr/local/src/pngquant && make && make install
+  tags: pngquant
+  when: st.stat.isdir is undefined
