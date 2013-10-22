@@ -28,17 +28,17 @@
   tags: python
 
 - name: Check pyenv Version Installed
-  shell: source /etc/profile; pyenv versions | awk '/3.3.2/{print $2}'
+  shell: source /etc/profile; pyenv versions | awk '/{{ pythonBuildVersion }}/{print $2}'
   register: result
-  changed_when: result.stdout.find('3.3.2') != 0
+  changed_when: result.stdout.find('{{ pythonBuildVersion }}') != 0
 
 - name: Install Python from pyenv
-  shell: source /etc/profile; pyenv install 3.3.2
-  when: result.stdout.find('3.3.2') != 0
+  shell: source /etc/profile; pyenv install {{ pythonBuildVersion }}
+  when: result.stdout.find('{{ pythonBuildVersion }}') != 0
 
 - name: Build pyenv change global
-  shell: source /etc/profile; pyenv global 3.3.2; pyenv rehash
-  when: result.stdout.find('python') != 0
+  shell: source /etc/profile; pyenv global {{ pythonBuildVersion }}; pyenv rehash
+  when: result.stdout.find('{{ pythonBuildVersion }}') != 0
 
 
 
