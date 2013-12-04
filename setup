@@ -1,0 +1,343 @@
+#!/usr/bin/env ruby
+
+require "rbconfig"
+require 'fileutils'
+require 'shellwords'
+
+class TermColor
+  class << self
+    # 色を解除
+    def reset   ; c 0 ; end 
+
+    # 各色
+    def red     ; c 31; end 
+    def green   ; c 32; end 
+    def yellow  ; c 33; end 
+    def blue    ; c 34; end 
+    def magenta ; c 35; end 
+    def cyan    ; c 36; end 
+    def white   ; c 37; end
+
+    # カラーシーケンスを出力する
+    def c(num)
+      print "\e[#{num.to_s}m"
+    end
+  end
+end
+
+
+#
+# mac用setupコマンド
+#
+def setup_mac
+  puts "Terget OS is OSX."
+
+  #xcodeの確認
+  command = `which xcodebuild`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Xcode"
+  else
+    puts "[Install] dependency Xcode"
+    TermColor.yellow
+    puts `pkgutil --pkg-info=com.apple.pkg.DeveloperToolsCLI`
+    command=`which xcodebuild`
+    TermColor.green
+    puts "[Install] installed Xcode. path : #{command}"
+  end
+
+  #xcodeコマンドラインツールの確認
+  command = `which xcode-select`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Xcode-CommandLineTools"
+  else
+    puts "[Install] dependency Xcode-CommandLineTools"
+    TermColor.yellow
+    puts `xcode-select --install`
+    command=`which xcode-select`
+    TermColor.green
+    puts "[Install] installed XcodeCommandLineTools. path : #{command}"
+  end
+
+  #homebrewの確認
+  command = `which brew`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Homebrew"
+  else
+    puts "[Install] dependency Homebrew"
+    TermColor.yellow
+    puts `ruby -e curl -fsSL https://raw.github.com/mxcl/homebrew/go)`
+    command_ver=`brew --version`
+    command=`which brew`
+    TermColor.green
+    puts "[Install] installed Homebrew. path : #{command} version : #{command_ver}"
+  end
+
+  # homebrew caskの確認
+  command = `which brew cask | grep Error`
+
+  unless command.nil?
+    puts "[Install] Already exists dependency brew cask"
+  else
+    puts "[Install] dependency brew cask"
+    TermColor.yellow
+    puts `brew tap phinze/homebrew-cask`
+    puts `brew install brew-cask`
+    TermColor.green
+    puts "[Install] installed brew cask"
+  end
+
+  # wgetの確認
+  command = `which wget`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency wget"
+  else
+    puts "[Install] dependency wget"
+    TermColor.yellow
+    puts `brew install wget`
+    command = `which wget`
+
+    puts "[Install] installed wget. Path : #{command}"
+  end
+  
+  TermColor.green
+
+  # gitの確認
+  command = `which git`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency git"
+  else
+    puts "[Install] dependency git"
+    TermColor.yellow
+    puts `brew install git`
+    command = `which wget`
+    command_ver = `wget --version`
+    puts "[Install] installed git. Path : #{command} Version : #{command_ver}"
+  end
+
+  # pyenvの確認
+  command = `which pyenv`
+  puts command
+  unless command.empty?
+    puts "[Install] Already exists dependency pyenv"
+  else
+    puts "[Install] dependency pyenv"
+    TermColor.yellow
+    puts `brew install pyenv`
+    `echo 'export PATH="$HOME/.pyenv/bin:$PATH"' >> ~/.bash_profile`
+    `source ~/.bash_profile`
+    command = `which pyenv`
+
+    puts "[Install] installed pyenv. Path : #{command}"
+  end
+
+  # (Python)pipの確認
+  command = `which pip`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency python pip"
+  else
+    puts "[Install] dependency Python Module pip"
+    TermColor.yellow
+    puts `sudo easy_install pip`
+    command = `which pip`
+
+    puts "[Install] installed pyenv. Path : #{command}"
+  end
+
+  TermColor.green
+
+  command = `pip list | grep paramiko`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Python Module paramiko"
+  else
+    puts "[Install] dependency Python Module paramiko"
+    TermColor.yellow
+    puts `sudo pip install paramiko`
+
+    puts "[Install] installed Python Module paramiko"
+  end
+
+  TermColor.green
+
+  command = `pip list | grep PyYAML`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Python Module PyYAML"
+  else
+    puts "[Install] dependency Python Module PyYAML"
+    TermColor.yellow
+    puts `sudo pip install PyYAML`
+
+    puts "[Install] installed Python Module PyYAML"
+  end
+
+  TermColor.green
+
+  command = `pip list | grep jinja2`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Python Module jinja2"
+  else
+    puts "[Install] dependency Python Module jinja2"
+    TermColor.yellow
+    puts `sudo pip install jinja2`
+
+    puts "[Install] installed Python Module jinja2"
+  end
+
+  TermColor.green
+
+  command = `pip list | grep pycrypto`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Python Module pycrypto"
+  else
+    puts "[Install] dependency Python Module pycrypto"
+    TermColor.yellow
+    puts `sudo pip install pycrypto`
+
+    puts "[Install] installed Python Module pycrypto"
+  end
+
+  TermColor.green
+
+  command = `pip list | grep markupsafe`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Python Module markupsafe"
+  else
+    puts "[Install] dependency Python Module markupsafe"
+    TermColor.yellow
+    puts `sudo pip install markupsafe`
+
+    puts "[Install] installed Python Module markupsafe"
+  end
+
+  TermColor.green
+
+  # (Python)Ansibleの確認
+  command = `pip list | grep ansible`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Python Module ansible"
+  else
+    puts "[Install] dependency Python ansible"
+    TermColor.yellow
+    puts `sudo pip install ansible`
+    command = `which pip`
+
+    puts "[Install] installed Python Module ansible. Path : #{command}"
+  end
+
+  # VirtualBoxのプロセスを切る
+  TermColor.green
+  puts "kill VirtualBox Process Force"
+  TermColor.yellow
+  puts `killall VirtualBox`
+  TermColor.green
+  puts "update VirtualBox(https://www.virtualbox.org/) Force"
+  TermColor.yellow
+  puts `brew cask install virtualbox --force`
+
+  TermColor.green
+  puts "update Vagrant(http://www.vagrantup.com/) Force"
+  # Vagrantの強制インストール（アップデートも行う)
+  TermColor.yellow
+  puts `brew cask install vagrant --force`
+
+  TermColor.green
+  command = `vagrant plugin list | grep vagrant-vbguest | awk '{print $1}'`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency Vagrant Plugin vagrant-vbguest"
+  else
+    TermColor.yellow
+    puts "[Install] dependency Vagarant Plugin. vagrant-vbguest"
+    puts `vagrant plugin install vagrant-vbguest`
+  end
+
+  TermColor.green
+  command = `vagrant plugin list | grep sahara | awk '{print $1}'`
+  unless command.empty?
+    puts "[Install] Already exists dependency Vagrant Plugin Sahara"
+  else
+    TermColor.yellow
+    puts "[Install] dependency Vagarant Plugin. Vagrant Plugin Sahara"
+    puts `vagrant plugin install Sahara`
+  end
+
+  # packerの確認
+  command = `which packer`
+
+  unless command.empty?
+    puts "[Install] Already exists dependency packer"
+  else
+    puts "[Install] dependency packer"
+    TermColor.yellow
+    puts `brew install packer`
+    command = `which packer`
+    command_ver = `packer --version`
+    puts "[Install] installed packer. Path : #{command} Version : #{command_ver}"
+  end
+
+  TermColor.green
+  path = File.expand_path(__FILE__)
+  match_num = /versicolor/ =~ path
+  repo_base_path = path[0,match_num] + "versicolor"  
+  vagrantfile = path[0,match_num] + "versicolor/Vagrantfile"
+
+  #共有フォルダを作成する
+  puts `make Synced Folder`
+  result = File.readlines(vagrantfile).grep(/config.vm.synced_folder/)
+  synced_dirname = result[0].split(nil)[1].delete('"').delete(",")
+  synced_dir = path[0,match_num] + "versicolor/" + synced_dirname
+  FileUtils.mkdir_p(synced_dir) unless FileTest.exist?(synced_dir)
+  FileUtils.touch(synced_dir + "/.gitignore") unless FileTest.exist?(synced_dir + "/.gitignore")
+
+  #既にBOXが存在している場合は削除する
+  result = File.readlines(vagrantfile).grep(/^BOX_NAME/)
+  boxname = result[0].split(nil)[2].delete('"')
+  box_path = File.expand_path("~/.vagrant.d/boxes/#{boxname}/virtualbox")
+
+  if FileTest.exist?(box_path)
+    TermColor.yellow
+    puts "old boxes delete force Path ; #{synced_dir}"
+    #ここは後で検証 
+    #`rm -rf #{box_path}`
+  end
+
+  #Packerを使用してVirtualBoxのVMを作成する
+  # VirtualBoxの軌道
+  `open -e VirtualBox`
+  TermColor.green
+  puts "Packer Build VirtualBox Image"
+  Dir.chdir repo_base_path + "/packer"
+  TermColor.reset
+  exec "packer build -only=virtualbox packer.json"
+ 
+end
+
+osn = RbConfig::CONFIG["target_os"]
+
+TermColor.green
+case osn
+  when /mswin(?!ce)|mingw|cygwin|bccwin/
+    os = "win"
+    pac_man_command = "cinst"
+  when /linux/
+    os = "linux"
+    pac_man_command = "yum"
+  when /mac|darwin/
+    setup_mac
+  when  /bsd/
+    os = "bsd"
+  else
+    os = "other"
+end
+TermColor.reset
