@@ -27,7 +27,7 @@ curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -
 or command oneliner
 
 ```
-curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -; cd versicolor; vagrant up; curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -;
+curl https://raw.github.com/ryurock/versicolor/master/setup | ruby -; vagrant vbguest rebuild; vagrant up;
 ```
 
 ## Usage 
