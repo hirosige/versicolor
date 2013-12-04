@@ -30,6 +30,9 @@ end
 # mac用setupコマンド
 #
 def setup_mac
+
+  TermColor.green
+
   puts "Terget OS is OSX."
 
   #xcodeの確認
@@ -320,16 +323,17 @@ def setup_mac
   Dir.chdir repo_base_path + "/packer"
   TermColor.reset
   exec "packer build -only=virtualbox packer.json"
- 
+end
+
+def setup_win
+  puts "hoge"
 end
 
 osn = RbConfig::CONFIG["target_os"]
 
-TermColor.green
 case osn
   when /mswin(?!ce)|mingw|cygwin|bccwin/
-    os = "win"
-    pac_man_command = "cinst"
+    setup_win
   when /linux/
     os = "linux"
     pac_man_command = "yum"
@@ -340,4 +344,3 @@ case osn
   else
     os = "other"
 end
-TermColor.reset
