@@ -334,9 +334,13 @@ def setup_win
 
   puts "Vagrant(http://www.vagrantup.com/) Install"
   puts `cinst vagrant`
+  puts `vagrant plugin install vagrant-vbguest`
+  puts `vagrant plugin install sahara`
 
   puts "Packer(http://www.packer.io/) Install"
   puts `cinst packer`
+  puts `cd packer`
+  exec "packer build -only=virtualbox packer.json"
 end
 
 osn = RbConfig::CONFIG["target_os"]
