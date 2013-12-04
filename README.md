@@ -18,16 +18,15 @@ My DevOps repos - An idea, afix, etc. you can send me a PullRequest
 I can start very easily that versicolor to command one run
 
 ```
-curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -
-cd versicolor
-vagrant up
-curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -
+curl https://raw.github.com/ryurock/versicolor/master/setup | ruby -;
+vagrant up --provision;
+
 ```
 
 or command oneliner
 
 ```
-curl https://raw.github.com/ryurock/versicolor/master/packer/setup | sh -; cd versicolor; vagrant up; curl https://raw.github.com/ryurock/versicolor/master/vagrant/setup | sh -;
+curl https://raw.github.com/ryurock/versicolor/master/setup | ruby -; vagrant up --provision;
 ```
 
 ## Usage 
@@ -56,4 +55,22 @@ ansible-playbook -i ansible/inventories/local ansible/site.yml
 ```
 cd serverspec
 rake spec
+```
+
+## TrableShutting
+
+### An error occurred during installation of VirtualBox Guest Additions x.x.x. Some functionality may not work as intended.
+
+VirtualBox Guest Additions not same VirtualBox version.
+
+```
+vagrant vbguest --do rebuild
+```
+
+### No installation found.
+
+VirtualBox Guest Additions not install
+
+```
+vagrant vbguest --do install
 ```
