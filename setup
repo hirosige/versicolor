@@ -207,7 +207,7 @@ def setup_mac
 
   TermColor.green
 
-  command = `pip list | grep markupsafe`
+  command = `pip list | grep MarkupSafe`
 
   unless command.empty?
     puts "[Install] Already exists dependency Python Module markupsafe"
@@ -309,12 +309,12 @@ def setup_mac
     TermColor.yellow
     puts "old boxes delete force Path ; #{synced_dir}"
     #ここは後で検証 
-    #`rm -rf #{box_path}`
+    `rm -rf #{box_path}`
   end
 
   #Packerを使用してVirtualBoxのVMを作成する
-  # VirtualBoxの軌道
-  `open -e VirtualBox`
+  # VirtualBoxの起動
+  `open -a VirtualBox`
   TermColor.green
   puts "Packer Build VirtualBox Image"
   Dir.chdir repo_base_path + "/packer"

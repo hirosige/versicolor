@@ -3,7 +3,31 @@
   roles:
     - { role: sshd }
     - { role: yum/epel }
-- hosts: [LOCAL,VAGRANT]
+- hosts: LOCAL
+  sudo: yes
+  roles:
+    - { role: yum/remi }
+    - { role: yum/rpmforge }
+    - { role: vim-enhanced/install }
+    - { role: vim-enhanced/plugins/neobundle }
+    - { role: ruby/rbenv }
+    - { role: ruby/ruby-build }
+    - { role: ruby/gem/bundle }
+    - { role: ruby/bundle }
+    - { role: git }
+    - { role: java/openjdk }
+    - { role: jenkins/install }
+    - { role: jenkins/plugins/rbenv }
+    - { role: jenkins/plugins/yammer }
+    - { role: jenkins/plugins/build-with-parameters }
+    - { role: jenkins/plugins/extended-choice-parameter }
+    - { role: python/pyenv }
+    - { role: nodejs/ndenv }
+    - { role: nodejs/node-build }
+    - { role: nodejs/npm/hubot }
+    - { role: redis/install }
+    - { role: pngquant/install }
+- hosts: VAGRANT_LOCAL
   sudo: yes
   roles:
     - { role: yum/remi }
