@@ -2,6 +2,7 @@ rubyBuildVersion: 2.0.0-p247
 rbenvGroup: rbenv,wheel
 nodeBuildVersion: v0.10.20
 ndenvGroup: ndenv,wheel
+pythonBuildVersion: 3.3.3
 redisVersion: 2.6.13
 currentDir: /vagrant
 

@@ -8,9 +8,9 @@
   service: name=redis state=started
 
 - name: Check npm module hubot
-  shell: source /etc/profile; which hubot | grep hubot
+  shell: source /etc/profile; npm list | awk '/hubot/{print $1}'
   register: result
-  changed_when: result.stdout.find('hubot') == 0
+  changed_when: result.stdout.find('/hubot') == 0
 
 - debug: msg="{{ result.stdout }}"
 
