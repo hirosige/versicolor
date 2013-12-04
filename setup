@@ -326,7 +326,17 @@ def setup_mac
 end
 
 def setup_win
-  puts "hoge"
+
+  puts "Terget OS is Windows"
+
+  puts "VirtualBox(https://www.virtualbox.org/) Install"
+  puts `cinst virtualbox`
+
+  puts "Vagrant(http://www.vagrantup.com/) Install"
+  puts `cinst vagrant`
+
+  puts "Packer(http://www.packer.io/) Install"
+  puts `cinst packer`
 end
 
 osn = RbConfig::CONFIG["target_os"]
