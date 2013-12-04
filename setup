@@ -339,7 +339,7 @@ def setup_win
 
   puts "Packer(http://www.packer.io/) Install"
   puts `cinst packer`
-  puts `cd packer`
+  Dir.chdir "packer"
   exec "packer build -only=virtualbox packer.json"
 end
 
