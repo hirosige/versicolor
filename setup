@@ -121,7 +121,7 @@ def setup_mac
 
   # pyenvの確認
   command = `which pyenv`
-  puts command
+
   unless command.empty?
     puts "[Install] Already exists dependency pyenv"
   else
@@ -179,7 +179,7 @@ def setup_mac
 
   TermColor.green
 
-  command = `pip list | grep jinja2`
+  command = `pip list | grep Jinja2`
 
   unless command.empty?
     puts "[Install] Already exists dependency Python Module jinja2"

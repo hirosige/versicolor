@@ -1,2 +1,4 @@
 [LOCAL]
 localhost
+[VAGRANT]
+192.168.56.103

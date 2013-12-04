@@ -3,7 +3,7 @@
   roles:
     - { role: sshd }
     - { role: yum/epel }
-- hosts: LOCAL
+- hosts: [LOCAL,VAGRANT]
   sudo: yes
   roles:
     - { role: yum/remi }
