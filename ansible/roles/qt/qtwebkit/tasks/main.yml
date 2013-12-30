@@ -1,0 +1,7 @@
+- name: qtwebkit Install
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - qtwebkit
+    - qt-devel
+  tags: qtwebkit
+
