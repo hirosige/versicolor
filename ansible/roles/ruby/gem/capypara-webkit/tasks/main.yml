@@ -1,0 +1,15 @@
+- name: Create the repository for qt48
+  copy: src=epel-qt48.repo dest=/etc/yum.repos.d/epel-qt48.repo
+  tags: capypara-webkit
+
+- name: Package Install qt48
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - qt48-qt-webkit-devel
+  tags: capypara-webkit
+
+- name: SymLink x86 qconfig-64.h
+  file: src=/opt/rh/qt48/root/usr/include/QtCore/qconfig-64.h dest=/opt/rh/qt48/root/usr/include/QtCore/qconfig-x86_64.h
+
+- name: Source 
+  shell: source /opt/rh/qt48/enable; export PATH=/opt/rh/qt48/root/usr/lib64/qt4/bin/${PATH:+:${PATH}}
