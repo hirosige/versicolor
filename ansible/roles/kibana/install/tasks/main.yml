@@ -1,0 +1,32 @@
+- name: check installed or not
+  stat: path=/product/kibana
+  register: installed
+  changed_when: installed.stat.exists is defined and installed.stat.exists == False
+  tags: kibana
+
+- name: download file
+  get_url: url=http://download.elasticsearch.org/kibana/kibana/kibana-latest.zip dest=/tmp/kibana.zip mode=0755
+  when: installed.stat.exists == False
+  tags: kibana
+
+- name: check downloaded file
+  stat: path=/tmp/kibana.zip
+  register: download
+  changed_when: download.stat.isreg is defined and download.stat.isreg == True
+  tags: kibana
+
+- name: install unzip
+  yum: name=unzip state=latest
+
+- name: unzip file
+  shell: unzip /tmp/kibana.zip chdir=/tmp
+  when: download.stat.isreg is defined and download.stat.isreg == True
+  tags: kibana
+
+- name: delete tmp file
+  file: path=/tmp/kibana.zip state=absent
+  tags: kibana
+
+- name: move files
+  shell: mv /tmp/kibana-latest /product/kibana creates=/product/kibana
+  tags: kibana

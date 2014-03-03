@@ -1,0 +1,12 @@
+- name: depoloy composer.json
+  copy: dest={{ target_dir }}/composer.json src=composer.json
+  tags: php-update-by-composer
+
+- name: update by composer
+  shell: | 
+     if [ -e /etc/profile.d/phpenv.sh ];then
+       source /etc/profile.d/phpenv.sh
+     fi
+     /usr/local/bin/composer update -n
+     chdir='{{ target_dir }}'
+  tags: php-update-by-composer

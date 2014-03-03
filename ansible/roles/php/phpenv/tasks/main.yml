@@ -1,0 +1,53 @@
+- name: Create phpenv group
+  group: name=phpenv state=present
+
+- name: Check phpenv Exists
+  shell: cat /etc/group | grep phpenv;
+  register: result
+  changed_when: result.stdout.find('phpenv') != 0
+
+- name: User add phpenv group
+  user: name={{ ansible_env.SUDO_USER }} groups=phpenv,wheel
+  changed_when: result.stdout.find('phpenv') != 0
+
+- name: check installed
+  shell: |
+       if [ -e /usr/local/phpenv/bin/phpenv ];then
+         echo 'installed'
+       else
+         echo 'not installed'
+       fi
+  register: installed
+  changed_when: installed.stdout!='installed'
+
+- name: install phpenv
+  shell: |
+       curl https://raw.github.com/CHH/phpenv/master/bin/phpenv-install.sh | sh
+       mv ~/.phpenv /usr/local/phpenv
+  when: installed.changed
+
+- name: set permissions
+  file: path=/usr/local/phpenv mode=775 recurse=yes
+  when: installed.changed
+
+- name: phpenv Dir change group
+  file: path=/usr/local/phpenv group=phpenv mode=0775 state=directory recurse=yes
+  when: installed.changed
+
+- name: phpenv shims change permission
+  file: path=/usr/local/phpenv/shims state=directory mode=0777
+  when: installed.changed
+
+- name: check profile phpenv.sh
+  shell: |
+       if [ -e /etc/profile.d/phpenv.sh ];then
+         echo 'has_profile'
+       else
+         echo 'has_not_profile'
+       fi
+  register: has_profile
+  changed_when: has_profile.stdout!='has_profile'
+
+- name: deploy /etc/profiled.d/phpenv.sh
+  template: src=phpenv.sh.j2 dest=/etc/profile.d/phpenv.sh mode=755
+  when: has_profile.changed

@@ -1,0 +1,23 @@
+- name: check plugins dir
+  shell: |
+       if [ -d /usr/local/phpenv/plugins ];then
+         echo 'has_dir'
+       else
+         echo 'has_not_dir'
+       fi
+  register: has_plugins_dir
+  changed_when: has_plugins_dir.stdout!='has_dir'
+
+- name: Create directory /usr/local/phpenv/plugins
+  file: path=/usr/local/phpenv/plugins state=directory mode=0755
+  changed_when: has_plugins_dir.changed
+
+- name: install php-apache-version
+  shell: |
+      cd /usr/local/phpenv/plugins
+      if [ ! -d /usr/local/phpenv/plugins/phpenv-apache-version ];then
+        git clone git://github.com/garamon/phpenv-apache-version
+        echo 'changed'
+      fi
+  register: install_php_apache_version
+  changed_when: install_php_apache_version.stdout!=''

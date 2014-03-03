@@ -1,0 +1,44 @@
+- name: check plugins dir
+  shell: |
+       if [ -d /usr/local/phpenv/plugins ];then
+         echo 'has_dir'
+       else
+         echo 'has_not_dir'
+       fi
+  register: has_plugins_dir
+  changed_when: has_plugins_dir.stdout!='has_dir'
+  tags: install-php-build
+
+- name: Create directory /usr/local/phpenv/plugins
+  file: path=/usr/local/phpenv/plugins state=directory mode=775
+  changed_when: has_plugins_dir.changed
+  tags: install-php-build
+
+- name: check php-build installed
+  shell: |
+       if [ -d /usr/local/phpenv/plugins/php-build ];then
+         echo 'installed'
+       else
+         echo 'not_installed'
+       fi
+  register: php_build_installed
+  changed_when: php_build_installed.stdout!='installed'
+  tags: install-php-build
+
+- name: install php-build
+  shell: |
+      cd /usr/local/phpenv/plugins
+      CHANGED='0'
+      if [ ! -d /usr/local/phpenv/plugins/php-build ];then
+        git clone https://github.com/CHH/php-build.git
+        CHANGED='1'
+      fi
+      if [ ! -e php-build/bin/rbenv-install ];then
+        curl https://raw.github.com/CHH/php-build/plugin-to-chh-phpenv/bin/rbenv-install > php-build/bin/rbenv-install
+        chmod 775 php-build/bin/rbenv-install
+        CHANGED='1'
+      fi
+      echo "{CHANGED}"
+  register: install_php_build
+  when: php_build_installed.changed
+  tags: install-php-build

@@ -1,0 +1,90 @@
+- name: install dependencies
+  yum: name={{item}} enablerepo=epel state=installed
+  with_items:
+    - autoconf
+    - re2c
+    - libmcrypt
+    - libmcrypt-devel
+    - libxml2-devel
+    - bison
+    - bison-devel
+    - openssl-devel
+    - curl-devel
+    - libjpeg-devel
+    - libpng-devel
+    - libmcrypt-devel
+    - readline-devel
+    - libtidy-devel
+    - libxslt-devel
+    - httpd-devel
+    - enchant-devel
+    - libXpm
+    - libXpm-devel
+    - freetype-devel
+    - t1lib
+    - t1lib-devel
+    - gmp-devel
+    - libc-client-devel
+    - libicu-devel
+    - oniguruma-devel
+    - net-snmp
+    - net-snmp-devel
+    - bzip2-devel
+    - mysql-devel
+    - gd-devel
+    - firebird-devel
+    - freetds-devel
+    - unixODBC-devel
+    - aspell-devel
+    - libedit-devel
+    - net-snmp-devel
+    - recode-devel
+    - openssl
+    - openssl-devel
+    - libtool-ltdl-devel
+    - lemon
+
+- name: deploy configure option
+  template: src=default_configure_options.j2 dest=/usr/local/phpenv/plugins/php-build/share/php-build/default_configure_options
+  tags: php-build-install-php
+
+- name: deploy php definitions {{ php_version }}
+  template: src={{ php_version }}.j2 dest=/usr/local/phpenv/plugins/php-build/share/php-build/definitions/{{ php_version }}
+  tags: php-build-install-php
+
+- name: deploy php.conf to /etc/httpd/conf.d/php.conf
+  template: src=php.conf.j2 dest=/etc/httpd/conf.d/php.conf
+  register: deploy_php_conf
+  tags: php-build-install-php
+
+- name: build php
+  shell: |
+      source /etc/profile.d/phpenv.sh
+      if [ $(phpenv versions|grep -c {{ php_version }}) -eq 0 ];then
+        phpenv install {{ php_version }}
+        phpenv rehash
+        chmod 775 /usr/lib64/httpd/modules/libphp5.so
+        cp /usr/lib64/httpd/modules/libphp5.so /usr/local/phpenv/versions/{{ php_version }}/
+        phpenv apache-version {{ php_version }}
+        echo 'changed'
+      fi
+  register: build_php
+  changed_when: build_php.stdout!=''
+  tags: php-build-install-php
+
+- name: restart httpd
+  service: name='httpd' state=restarted
+  when: deploy_php_conf.changed or build_php.changed
+  tags: php-build-install-php
+
+- name: Check phpenv Plugin php-build Installed
+  shell: source /etc/profile; phpenv versions | awk '/{{ php_version }}/{print $2}'
+  register: result
+  changed_when: result.stdout.find('{{ php_version }}') != 0
+  tags: php-build-install-php
+
+- name: Build php change global
+  shell: source /etc/profile; phpenv global {{ php_version }}; phpenv rehash
+  when: result.stdout.find('{{ php_version }}') != 0
+  tags: php-build-install-php
+

@@ -1,0 +1,20 @@
+- name: Check whether already installed
+  stat: path=/usr/local/jmeter
+  register: st
+
+- name: Download jmeter
+  get_url: dest={{ ansible_cache_dir }}/jmeter.tgz url="http://archive.apache.org/dist/jmeter/binaries/apache-jmeter-2.11.tgz"
+  when: st.stat.exists==false
+
+- name: install jmeter
+  shell: |
+      cd {{ ansible_cache_dir }}
+      tar xzf {{ ansible_cache_dir }}/jmeter.tgz
+      mv {{ ansible_cache_dir }}/apache-jmeter-2.11 /usr/local/jmeter
+  when: st.stat.exists==false
+
+- name: deploy /etc/profile.d/jmeter.sh
+  copy: src=jmeter.sh dest=/etc/profile.d/jmeter.sh owner=root group=root mode=0644
+
+- name: deploy /usr/local/jmeter/bin/jmeter.properties
+  template: src=jmeter.properties dest=/usr/local/jmeter/bin/jmeter.properties owner=root group=root mode=0644
