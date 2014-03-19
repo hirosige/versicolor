@@ -1,15 +1,11 @@
 versicolor
 =================
 
-My DevOps repos - An idea, afix, etc. you can send me a PullRequest
+My DevOps repos - An idea, fix, etc. you can send me a PullRequest
 
 ## Requirements
 
-* [VirtualBox](https://www.virtualbox.org/)
-* [Homebrew](http://brew.sh/)
-* [Git](http://git-scm.com/)
-* [Vagrant](http://www.vagrantup.com/)
-* [Packer](http://www.packer.io/)
+* [Ansible](http://docs.ansible.com/)
 
 ## Quick Start
 
@@ -17,10 +13,39 @@ My DevOps repos - An idea, afix, etc. you can send me a PullRequest
 
 I can start very easily that versicolor to command one run
 
-```
-curl https://raw.github.com/ryurock/versicolor/master/setup | ruby -;
-vagrant up --provision;
+### Requirements Ansible Install
 
+Using to [ryurock/ansible-installer](https://github.com/ryurock/ansible-installer)
+
+```shell
+url https://raw.github.com/ryurock/ansible-installer/master/bin/setup | bash
+# OSX
+source ~/.bash_profile
+# or
+source ~/.bashrc
+
+# Linux
+source /etc/profile
+```
+
+### Ansible OSX Install developments setup
+
+```shell
+git clone https://github.com/ryurock/versicolor.git
+cd versicolor
+ansible-playbook -i ansible/inventories/osx -c local --ask-sudo-pass ansible/site.yml
+# sudo User Passowrd input
+sudo password: 
+
+>PLAY [all] ******************************************************************** 
+>GATHERING FACTS *************************************************************** 
+>ok: [127.0.0.1]
+>
+>TASK: [sshd | Install sshd-server] ******************************************** 
+>skipping: [127.0.0.1]
+.
+.
+.
 ```
 
 or command oneliner
@@ -34,11 +59,6 @@ curl https://raw.github.com/ryurock/versicolor/master/setup | ruby -; vagrant up
 1. Using to Vagrant Login.
 ```
 vagrant ssh
-```
-
-1. check Ansible Ping
-```
-ansible LOCAL -i inventries/local -m ping
 ```
 
 1. Using Ansible Playbook(test-playbook.yml)
