@@ -1,0 +1,13 @@
+- name: Check Xcode CommandLineTools installed
+  shell: |
+    if which xcode-select >/dev/null 2>&1; then
+      echo "installed"
+    else
+      echo "not installed"
+    fi
+  register: installed
+  changed_when: installed.stdout!='installed'
+
+- name: XCode CommandLineTools Not Installed Error
+  fail: msg="the command failed"
+  when: installed.stdout!='installed'

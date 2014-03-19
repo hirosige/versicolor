@@ -1,0 +1,8 @@
+- name: Check for installed apps(vagrant)
+  shell: brew cask list | grep -c -v vagrant
+  register: app_installed
+  changed_when: app_installed.stdout == 1
+
+- name: install cask vagrant
+  shell: brew cask install vagrant
+  when:  app_installed.stdout == 1

@@ -1,0 +1,35 @@
+- name: create virtualbox synced folder created
+  shell: |
+    pwd=$(pwd)
+    synced_folder_name=$(cat ${pwd}/../Vagrantfile | grep 'config.vm.synced_folder' | awk '{print $2}' | sed -e "s/,//g" | sed -e 's/"//g')
+    if [ ! -d ${pwd}/../${synced_folder_name} ]; then
+      mkdir ${pwd}/../${synced_folder_name}
+      echo "created"
+    else
+      echo "not_created"
+    fi
+  register: synced_created
+  changed_when: synced_created.stdout == "created"
+
+- name: box destory force
+  shell: vagrant destroy --force
+
+- name: box file remove force
+  shell: |
+    pwd=$(pwd)
+    box_name=$(cat ${pwd}/../Vagrantfile | grep 'BOX_NAME =' | awk '{print $3}' | sed -e 's/"//g')
+    if [ -e "~/.vagrant.d/boxes/${box_name}/virtualbox" ]; then
+      rm -rf "~/.vagrant.d/boxes/${box_name}/virtualbox"
+      echo "deleted"
+    else
+      echo "not_deleted"
+    fi
+  register: boxes_deleted
+  changed_when: boxes_deleted.stdout == "deleted"
+
+- name: create virtualbox with packer
+  shell: |
+    pwd=$(pwd)
+    cd "${pwd}/../"
+    packer build -only=virtualbox-iso packer/config.json
+

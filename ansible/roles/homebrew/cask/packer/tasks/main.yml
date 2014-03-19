@@ -1,0 +1,8 @@
+- name: Check for installed apps(packer)
+  shell: brew cask list | grep -c -v packer
+  register: app_installed
+  changed_when: app_installed.stdout != 1
+
+#- name: install cask packer
+#  shell: brew cask install packer
+#  when:  app_installed.rc = 1

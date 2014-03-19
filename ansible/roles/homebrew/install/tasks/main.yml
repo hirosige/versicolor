@@ -1,0 +1,14 @@
+- name: Check homebrew installed
+  shell: |
+    if which brew >/dev/null 2>&1; then
+      echo "installed"
+    else
+      echo "not installed"
+    fi
+  register: installed
+  changed_when: installed.stdout!='installed'
+
+- name: install homebrew
+  shell: |
+    ruby -e "$(curl -fsSL https://raw.github.com/Homebrew/homebrew/go/install)"
+  when: installed.changed
