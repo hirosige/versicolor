@@ -48,6 +48,12 @@ sudo password:
 .
 ```
 
+### First Time vagrant --provision
+
+```
+# Ansible-playbooks provision install task Middlewere
+vagrant up --provision
+```
 
 ## Usage 
 
