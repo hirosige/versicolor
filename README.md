@@ -48,22 +48,12 @@ sudo password:
 .
 ```
 
-or command oneliner
-
-```
-curl https://raw.github.com/ryurock/versicolor/master/setup | ruby -; vagrant up --provision;
-```
 
 ## Usage 
 
 1. Using to Vagrant Login.
 ```
 vagrant ssh
-```
-
-1. Using Ansible Playbook(test-playbook.yml)
-```
-ansible-playbook -i ansible/inventories/local ansible/test-playbook.yml 
 ```
 
 1. Using Ansible Playbook(main)
