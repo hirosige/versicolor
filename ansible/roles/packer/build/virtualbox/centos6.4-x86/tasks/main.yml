@@ -27,6 +27,30 @@
   register: boxes_deleted
   changed_when: boxes_deleted.stdout == "deleted"
 
+- name: misc error dir VirtualBox\ VMs/box
+  shell: |
+    pwd=$(pwd)
+    if [ -d ~/VirtualBox\ VMs/box ]; then
+      rm -rf ~/VirtualBox\ VMs/box
+      echo "deleted"
+    else
+      echo "not_deleted"
+    fi
+  register: misc_deleted
+  changed_when: misc_deleted.stdout == "deleted"
+
+- name: misc error dir remove output-virtualbox-iso
+  shell: |
+    pwd=$(pwd)
+    if [ -d ${pwd}/../output-virtualbox-iso ]; then
+      rm -rf "${pwd}/../output-virtualbox-iso"
+      echo "deleted"
+    else
+      echo "not_deleted"
+    fi
+  register: misc_deleted
+  changed_when: misc_deleted.stdout == "deleted"
+
 - name: create virtualbox with packer
   shell: |
     pwd=$(pwd)

@@ -1,0 +1,17 @@
+- name: virtualbox box file remove force
+  shell: |
+    pwd=$(pwd)
+    box_name=$(cat ${pwd}/../Vagrantfile | grep 'BOX_NAME =' | awk '{print $3}' | sed -e 's/"//g')
+    if [ -d "~/VirtualBox\ VMs/${box_name}" ]; then
+      rm -rf "~/VirtualBox\ VMs/${box_name}"
+      echo "deleted"
+    else
+      echo "not_deleted"
+    fi
+  register: boxes_deleted
+  changed_when: boxes_deleted.stdout == "deleted"
+
+- name: vagrant halt with force
+  shell: vagrant halt --force
+
+- debug: msg="Next Step is Command to vagrant up --provsion"

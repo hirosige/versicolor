@@ -1,9 +1,12 @@
-- name: check whether redis has been aleady installed
+- name: check weather redis has been already installed
   shell: |
-        [ -x /usr/local/redis/bin/redis-server ] && [ -x /usr/local/redis/bin/redis-cli ] && [ $(/usr/local/redis/bin/redis-cli --version|grep {{ redisVersion }} |wc -l) -gt 0 ]
+    if [ -d /usr/local/redis ]; then
+      echo "installed"
+    else
+      echo "not_installed"
+    fi
   register: installed
-  changed_when: false   #for suppress "changed"
-  ignore_errors: True
+  changed_when: installed.stdout !='installed'
   tags: redis
 
 - name: clone redis git repository
@@ -11,7 +14,7 @@
        dest=/tmp/redis
        version={{ redisVersion }}
        force=yes
-  when: installed|failed
+  changed_when: installed.stdout !='installed'
   tags: redis
 
 - name: install redis
@@ -19,7 +22,7 @@
         cd /tmp/redis && make && make PREFIX=/usr/local/redis install
         mkdir -p /var/lib/redis/data
         mkdir -p /etc/redis
-  when: installed|failed
+  changed_when: installed.stdout !='installed'
   tags: redis
 
 - name: deploy init script to /etc/init.d/redis
@@ -32,7 +35,13 @@
   template: src=redis.sh.j2 dest=/etc/profile.d/redis.sh mode=0644
   tags: redis
 
+- name: check keep alive redis
+  shell: ps aux | grep -c redis
+  register: server_alive
+  changed_when: server_alive.stdout != '3'
+  tags: redis
+
 - name: running redis
-  service: name=redis state=started
-  when: installed|failed
+  shell: /etc/init.d/redis start
+  changed_when: server_alive.stdout != '3'
   tags: redis
