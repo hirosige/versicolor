@@ -8,6 +8,7 @@
   roles:
     - { role: xcode,                                when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/install,                     when: "ansible_os_family == 'Darwin'" }
+    - { role: homebrew/brew/cask,                   when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/wget,                   when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/git,                    when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/packer,                 when: "ansible_os_family == 'Darwin'" }

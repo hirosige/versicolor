@@ -1,8 +1,8 @@
 - name: Check for installed vagrant plugins (vagrant-vbguest)
-  shell: vagrant plugin list | grep -c -v vagrant-vbguest
+  shell: vagrant plugin list | grep -c vagrant-vbguest
   register: plugins_installed
-  changed_when: plugins_installed.stdout == 1
+  changed_when: plugins_installed.stdout == 0
 
 - name: install vagrant plugins vagrant-vbguest
   shell: vagrant plugin install vagrant-vbguest
-  when:  plugins_installed.stdout == 1
+  when:  plugins_installed.stdout == 0
