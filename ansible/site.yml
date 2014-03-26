@@ -43,6 +43,7 @@
     - { role: nodejs/npm/hubot }
     - { role: redis/install }
     - { role: pngquant/install }
+    - { role: mysql/install }
 - hosts: VAGRANT_LOCAL
   sudo: yes
   roles:
@@ -67,3 +68,4 @@
     - { role: nodejs/npm/hubot }
     - { role: redis/install }
     - { role: pngquant/install }
+    - { role: mysql/install }
