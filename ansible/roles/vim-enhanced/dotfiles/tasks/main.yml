@@ -1,0 +1,13 @@
+- name: Git Clone dotfiles
+  git: repo=https://github.com/ryurock/dotfiles.git
+       dest=/home/{{ ansible_env.SUDO_USER }}/dotfiles
+       update=no
+  tags: dotfiles
+
+- name: clone repo change owner
+  file: path=/home/{{ ansible_env.SUDO_USER }}/dotfiles owner={{ ansible_env.SUDO_USER }} group={{ ansible_env.SUDO_USER }} recurse=yes mode=775
+
+# mydotfiles
+- name: dotfiles symbolik link
+  file: src=/home/{{ ansible_env.SUDO_USER }}/dotfiles/.vimrc dest=/home/{{ ansible_env.SUDO_USER }}/.vimrc owner={{ ansible_env.SUDO_USER }} group={{ ansible_env.SUDO_USER }} state=link
+  tags: dotfiles

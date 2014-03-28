@@ -10,6 +10,6 @@
   when: installed.stat.exists is defined and installed.stat.exists == False
 
 - name: bundle install
-  shell: source /etc/profile; bundle install chdir=/synced/padrino-sample
-  when: installed.stat.exists is defined and installed.stat.exists == False
+  shell: source /etc/profile; bundle install chdir=/synced
+  when: installed.stat.exists is defined and installed.stat.exists == True
   tags: padrino-sample
