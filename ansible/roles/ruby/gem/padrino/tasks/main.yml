@@ -1,0 +1,8 @@
+- name: Check Install padrino
+  shell: source /etc/profile; gem list | awk '/^padrino/{print $1}'
+  register: result
+  changed_when: result.stdout.find('padrino') != 0
+
+- name: Install RubyGems padrino
+  shell: source /etc/profile; gem install padrino --no-ri --no-rdoc
+  when: result.stdout.find('padrino') != 0

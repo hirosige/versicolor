@@ -1,0 +1,15 @@
+- name: check installed or not
+  stat: path=/synced/padrino-sample
+  register: installed
+  changed_when: installed.stat.exists is defined and installed.stat.exists == False
+  tags: padrino-sample
+
+- name: create project generate
+  shell: source /etc/profile; padrino g project padrino-sample -t rspec -d datamapper -a mysql  chdir=/synced
+  changed_when: installed.stat.exists is defined and installed.stat.exists == False
+  tags: padrino-sample
+
+- name: bundle install
+  shell: source /etc/profile; bundle install chdir=/synced
+  changed_when: installed.stat.exists is defined and installed.stat.exists == False
+  tags: padrino-sample

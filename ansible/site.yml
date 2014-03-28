@@ -24,8 +24,10 @@
   roles:
     - { role: yum/remi }
     - { role: yum/rpmforge }
+    - { role: resolv }
     - { role: vim-enhanced/install }
     - { role: vim-enhanced/plugins/neobundle }
+    - { role: vim-enhanced/dotfiles }
     - { role: ruby/rbenv }
     - { role: ruby/ruby-build }
     - { role: ruby/gem/bundle }
@@ -44,13 +46,16 @@
     - { role: redis/install }
     - { role: pngquant/install }
     - { role: mysql/install }
+    - { role: ruby/framework/padrino/create-sample }
 - hosts: VAGRANT_LOCAL
   sudo: yes
   roles:
     - { role: yum/remi }
     - { role: yum/rpmforge }
+    - { role: resolv }
     - { role: vim-enhanced/install }
     - { role: vim-enhanced/plugins/neobundle }
+    - { role: vim-enhanced/dotfiles }
     - { role: ruby/rbenv }
     - { role: ruby/ruby-build }
     - { role: ruby/gem/bundle }
@@ -69,3 +74,4 @@
     - { role: redis/install }
     - { role: pngquant/install }
     - { role: mysql/install }
+    - { role: ruby/framework/padrino/create-sample }
