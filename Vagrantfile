@@ -55,5 +55,6 @@ Vagrant.configure("2") do |config|
    config.vm.provision "ansible" do |ansible|
      ansible.inventory_path = 'ansible/inventories/vagrant_local'
      ansible.playbook = "ansible/site.yml"
+     ansible.verbose = "vvv"
    end
 end
