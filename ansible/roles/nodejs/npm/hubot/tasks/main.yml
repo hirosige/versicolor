@@ -12,11 +12,12 @@
   register: result
   changed_when: result.stdout.find('/hubot') == 0
 
-- debug: msg="{{ result.stdout }}"
-
 - name: npm install hubot and denpencecy modules
   shell: source /etc/profile; npm install -g {{ item }}
   with_items:
     - hubot
     - coffee-script
   when: result.stdout.find('/hubot') == 0
+
+- name: hubot profile Settings
+  template: src=hubot.sh.j2 dest=/etc/profile.d/hubot.sh mode=0644
