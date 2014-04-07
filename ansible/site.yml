@@ -25,6 +25,7 @@
     - { role: yum/remi }
     - { role: yum/rpmforge }
     - { role: resolv }
+    - { role: bcrypt }
     - { role: vim-enhanced/install }
     - { role: vim-enhanced/plugins/neobundle }
     - { role: vim-enhanced/dotfiles }
@@ -55,6 +56,7 @@
     - { role: yum/remi }
     - { role: yum/rpmforge }
     - { role: resolv }
+    - { role: bcrypt }
     - { role: vim-enhanced/install }
     - { role: vim-enhanced/plugins/neobundle }
     - { role: vim-enhanced/dotfiles }
