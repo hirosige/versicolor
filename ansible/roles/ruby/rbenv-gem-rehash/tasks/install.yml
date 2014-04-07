@@ -1,0 +1,7 @@
+- name: Git Clone rbenv-gem-rehash Plugin
+  git: repo=https://github.com/sstephenson/rbenv-gem-rehash.git
+       dest=/usr/local/rbenv/plugins/rbenv-gem-rehash
+       update=no
+
+- name: ruby-binstub Dir change group
+  file: path=/usr/local/rbenv/plugins/rbenv-gem-rehash owner={{ ansible_env.SUDO_USER }} group=rbenv mode=0775 state=directory recurse=yes

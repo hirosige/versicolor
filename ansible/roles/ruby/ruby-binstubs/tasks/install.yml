@@ -1,0 +1,7 @@
+- name: Git Clone ruby-binstubs Plugin
+  git: repo=https://github.com/ianheggie/rbenv-binstubs.git
+       dest=/usr/local/rbenv/plugins/rbenv-binstubs
+       update=no
+
+- name: ruby-binstub Dir change group
+  file: path=/usr/local/rbenv/plugins/rbenv-binstubs owner={{ ansible_env.SUDO_USER }} group=rbenv mode=0775 state=directory recurse=yes
