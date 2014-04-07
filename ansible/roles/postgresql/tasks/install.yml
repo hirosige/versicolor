@@ -1,0 +1,31 @@
+- name: Install Depencecy packages
+  yum: pkg={{ item }} state=installed
+  with_items:
+    - postgresql93-server
+    - postgresql93-devel
+    - postgresql93-contrib
+  tags: postgresql
+
+- name: Check Installed PostgreSQL
+  shell: |
+      if [ $(/etc/init.d/postgresql-9.3 initdb | grep -c 'is not empty') -eq 0 ];then
+        echo 'not installed'
+      else
+        echo 'installed'
+      fi
+  register: installed
+  changed_when: installed.stdout!='installed' 
+  tags: postgresql
+
+- name: initdb PostgreSQL
+  shell: /etc/init.d/postgresql-9.3 initdb
+  register: installed
+  when: installed.changed
+  tags: postgresql
+
+- name: PostgreSQL Settings
+  template: src=pg_hba.conf.j2 dest=/var/lib/pgsql/9.3/data/pg_hba.conf mode=0644
+
+- name: start PostgreSQL
+  service: name=postgresql-9.3 state=started enabled=yes
+  tags: postgresql

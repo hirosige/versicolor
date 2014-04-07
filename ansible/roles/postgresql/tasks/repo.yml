@@ -1,0 +1,7 @@
+- name: Create the repository for pgdg
+  copy: src=pgdg.repo dest=/etc/yum.repos.d/pgdg.repo
+  tags: postgresql
+
+- name: Create the GPG key for pgdg
+  copy: src=RPM-GPG-KEY-PGDG dest=/etc/pki/rpm-gpg/RPM-GPG-KEY-PGDG
+  tags: postgresql
