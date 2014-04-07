@@ -22,4 +22,3 @@
       fi
   ignore_errors: True
   tags: padrino-sample
-

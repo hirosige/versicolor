@@ -4,4 +4,4 @@
        update=no
 
 - name: ruby-build Dir change group
-  file: path=/usr/local/rbenv/plugins/ruby-build group=rbenv mode=0775 state=directory recurse=yes
+  file: path=/usr/local/rbenv/plugins/ruby-build owner={{ ansible_env.SUDO_USER }} group=rbenv mode=0775 state=directory recurse=yes

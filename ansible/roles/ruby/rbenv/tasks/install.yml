@@ -20,7 +20,7 @@
 
 
 - name: rbenv Dir change group
-  file: path=/usr/local/rbenv group=rbenv mode=0775 state=directory
+  file: path=/usr/local/rbenv owner={{ ansible_env.SUDO_USER }} group=rbenv mode=0775 state=directory
 
 - name: rbenv profile Settings
   template: src=rbenv.j2 dest=/etc/profile.d/rbenv.sh mode=0644
