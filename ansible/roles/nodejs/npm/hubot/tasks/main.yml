@@ -8,7 +8,7 @@
   service: name=redis state=started
 
 - name: Check npm module hubot
-  shell: source /etc/profile; npm list | awk '/hubot/{print $1}'
+  shell: source /etc/profile; npm list -g | awk '/hubot/{print $2}'
   register: result
   changed_when: result.stdout.find('/hubot') == 0
 
@@ -19,4 +19,4 @@
   with_items:
     - hubot
     - coffee-script
-  changed_when: result.stdout.find('hubot') == 0
+  when: result.stdout.find('/hubot') == 0
