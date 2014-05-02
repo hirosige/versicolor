@@ -18,7 +18,7 @@ I can start very easily that versicolor to command one run
 Using to [ryurock/ansible-installer](https://github.com/ryurock/ansible-installer)
 
 ```shell
-curl https://raw.github.com/ryurock/ansible-installer/master/bin/setup | bash
+curl -L https://raw.github.com/ryurock/ansible-installer/master/bin/setup | bash
 # OSX
 source ~/.bash_profile
 # or
