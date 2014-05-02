@@ -1,0 +1,8 @@
+- name: Check for installed apps(XQuartz)
+  shell: brew cask list | awk '/^XQuartz$/{print $1}'
+  register: cask_list
+  changed_when: cask_list.stdout.find('XQuartz') != 0
+
+- name: install cask XQuartz
+  shell: brew cask install XQuartz
+  when: cask_list.stdout.find('XQuartz') != 0
