@@ -11,7 +11,7 @@
     - { role: homebrew/brew/cask,                   when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/wget,                   when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/git,                    when: "ansible_os_family == 'Darwin'" }
-    - { role: homebrew/brew/XQuartz,                when: "ansible_os_family == 'Darwin'" }
+    - { role: homebrew/cask/XQuartz,                when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/packer,                 when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/cask/virtualbox,             when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/cask/vagrant,                when: "ansible_os_family == 'Darwin'" }
