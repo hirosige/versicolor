@@ -1,1 +1,2 @@
+- homebrew_tap: tap=homebrew/binary state=present
 - homebrew: name=packer state=present
