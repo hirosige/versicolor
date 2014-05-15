@@ -22,7 +22,7 @@
 
 - name: install phpenv
   shell: |
-       curl https://raw.github.com/CHH/phpenv/master/bin/phpenv-install.sh | sh
+       curl -fsSL https://github.com/CHH/phpenv/raw/master/bin/phpenv-install.sh | sh
        mv ~/.phpenv /usr/local/phpenv
   when: installed.changed
 

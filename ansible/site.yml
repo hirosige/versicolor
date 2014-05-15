@@ -82,3 +82,6 @@
     - { role: redis/install }
     - { role: pngquant/install }
     - { role: mysql/install }
+    - { role: php/phpenv }
+    - { role: php/php-build/install-php-build }
+    - { role: php/php-build/install-php }

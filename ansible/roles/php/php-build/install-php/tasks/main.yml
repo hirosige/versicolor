@@ -87,4 +87,3 @@
   shell: source /etc/profile; phpenv global {{ php_version }}; phpenv rehash
   when: result.stdout.find('{{ php_version }}') != 0
   tags: php-build-install-php
-
