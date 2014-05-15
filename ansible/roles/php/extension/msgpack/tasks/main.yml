@@ -1,0 +1,27 @@
+- name: Check whether msgpack-php has already been installed
+  stat: path=/usr/local/phpenv/versions/{{ php_version }}/etc/conf.d/msgpack.ini
+  register: msgpack_stat
+  tags: extension-msgpack
+
+- name: git clone msgpack-php
+  git : repo=https://github.com/msgpack/msgpack-php.git
+        dest=/tmp/msgpack-php
+  tags: extension-msgpack
+
+- name: install dependencies
+  yum: name={{item}} enablerepo=epel state=installed
+  with_items:
+    - libtool
+
+- name : make install msgpack-php
+  shell: |
+    cd /tmp/msgpack-php
+    /usr/local/phpenv/shims/phpize
+    ./configure
+    make && make install
+  tags: extension-msgpack
+  when: msgpack_stat.stat.exists==false
+
+- name : msgpack settings msgpack.ini
+  template: src=msgpack.ini.j2 dest=/usr/local/phpenv/versions/{{ php_version }}/etc/conf.d mode=0644
+  tags: extension-msgpack
