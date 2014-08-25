@@ -45,7 +45,8 @@
     - lemon
 
 - name: deploy configure option
-  template: src=default_configure_options.j2 dest=/usr/local/phpenv/plugins/php-build/share/php-build/default_configure_options
+# /usr/local/phpenv/plugins/share/php-build
+  template: src=default_configure_options.j2 dest=/usr/local/phpenv/plugins/share/php-build/default_configure_options
   tags: php-build-install-php
 
 - name: deploy php definitions {{ php_version }}

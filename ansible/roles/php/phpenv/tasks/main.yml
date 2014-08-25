@@ -11,12 +11,7 @@
   changed_when: result.stdout.find('phpenv') != 0
 
 - name: check installed
-  shell: |
-       if [ -e /usr/local/phpenv/bin/phpenv ];then
-         echo 'installed'
-       else
-         echo 'not installed'
-       fi
+  command: echo 'installed' creates=/usr/local/phpenv/bin/phpenv
   register: installed
   changed_when: installed.stdout!='installed'
 
@@ -39,12 +34,7 @@
   when: installed.changed
 
 - name: check profile phpenv.sh
-  shell: |
-       if [ -e /etc/profile.d/phpenv.sh ];then
-         echo 'has_profile'
-       else
-         echo 'has_not_profile'
-       fi
+  command: echo 'installed' creates=/etc/profile.d/phpenv.sh
   register: has_profile
   changed_when: has_profile.stdout!='has_profile'
 

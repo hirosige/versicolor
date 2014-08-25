@@ -8,8 +8,6 @@
 
 - name: Jenkins Install
   yum: pkg=jenkins state=installed
-  notify:
-    - running jenkins
   tags: jenkins
 
 - name: Exists File Iptables
@@ -27,3 +25,6 @@
 - name: iptables restart
   service: name=iptables state=restarted
   when: result.changed
+
+- name: jenkins started make plugin deley wait
+  pause: seconds=5

@@ -15,7 +15,7 @@
   changed_when: result.stdout.find('pyenv') != 0
 
 - name: Git Clone pyenv
-  git: repo=git://github.com/yyuu/pyenv.git
+  git: repo=https://github.com/yyuu/pyenv.git
        dest=/usr/local/pyenv
        update=no
   tags: python
@@ -28,7 +28,7 @@
   tags: python
 
 - name: Check pyenv Version Installed
-  shell: source /etc/profile; pyenv versions | awk '/{{ pythonBuildVersion }}/{print $1}'
+  shell: source /etc/profile; pyenv versions | awk '/{{ pythonBuildVersion }}/{print $2}'
   register: result
   changed_when: result.stdout.find('{{ pythonBuildVersion }}') != 0
 

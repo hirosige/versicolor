@@ -1,47 +1,6 @@
-- name: check weather redis has been already installed
-  shell: |
-    if [ -d /usr/local/redis ]; then
-      echo "installed"
-    else
-      echo "not_installed"
-    fi
-  register: installed
-  changed_when: installed.stdout !='installed'
+- name: Redis Install
+  yum: pkg=redis state=installed
   tags: redis
 
-- name: clone redis git repository
-  git: repo=https://github.com/antirez/redis.git
-       dest=/tmp/redis
-       version={{ redisVersion }}
-       force=yes
-  changed_when: installed.stdout !='installed'
-  tags: redis
-
-- name: install redis
-  shell: |
-        cd /tmp/redis && make && make PREFIX=/usr/local/redis install
-        mkdir -p /var/lib/redis/data
-        mkdir -p /etc/redis
-  changed_when: installed.stdout !='installed'
-  tags: redis
-
-- name: deploy init script to /etc/init.d/redis
-  template: src=redis.j2 dest=/etc/init.d/redis owner=root group=root mode=0755
-
-- name: deploy redis.conf to /etc/redis/redis.conf
-  template: src=redis.conf.j2 dest=/etc/redis/redis.conf owner=root group=root mode=0644
-
-- name: redis profile Settings
-  template: src=redis.sh.j2 dest=/etc/profile.d/redis.sh mode=0644
-  tags: redis
-
-- name: check keep alive redis
-  shell: ps aux | grep -c redis
-  register: server_alive
-  changed_when: server_alive.stdout != '3'
-  tags: redis
-
-- name: running redis
-  shell: /etc/init.d/redis start
-  changed_when: server_alive.stdout != '3'
-  tags: redis
+- name: started Redis
+  service: name=redis state=started
