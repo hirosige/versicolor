@@ -1,0 +1,22 @@
+- name: apache Install
+  yum: pkg=httpd state=installed
+  tags: apache
+
+- name: deploy httpd.conf
+  template: src=httpd.conf.j2 dest=/etc/httpd/conf/httpd.conf
+
+- name: deploy vhost.conf
+  template: src=vhost.conf.j2 dest=/etc/httpd/conf.d/vhost.conf
+
+
+- name: added iptables
+  lineinfile: "dest=/etc/sysconfig/iptables state=present regexp='^--dport 80 -j ACCEPAT' insertafter='^-A INPUT -m state' line='-A INPUT -m state --state NEW -m tcp -p tcp --dport 80 -j ACCEPT'"
+  register: result
+
+
+- name: restart iptables
+  service: name=iptables state=restarted enabled=yes
+  when: result|changed
+
+- name: start Apache
+  service: name=httpd state=started enabled=yes
