@@ -4,11 +4,7 @@
   tags: php-composer
 
 - name: install composer
-  shell: |
-    if [ -e /etc/profile.d/phpenv.sh ];then
-      source /etc/profile.d/phpenv.sh
-    fi
-    curl -s https://getcomposer.org/installer | php && mv -v composer.phar /usr/local/bin/composer
+  shell: source /etc/profile; curl -s https://getcomposer.org/installer | php && mv -v composer.phar /usr/local/bin/composer
   when: composer_stat.stat.exists==false
   tags: php-composer
 
@@ -16,4 +12,3 @@
   copy: src=composer.sh dest=/etc/profile.d/composer.sh owner=root group=root mode=0755 
   when: composer_stat.stat.exists==false
   tags: php-composer
-

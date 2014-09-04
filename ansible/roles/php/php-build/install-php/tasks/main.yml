@@ -45,8 +45,7 @@
     - lemon
 
 - name: deploy configure option
-# /usr/local/phpenv/plugins/share/php-build
-  template: src=default_configure_options.j2 dest=/usr/local/phpenv/plugins/share/php-build/default_configure_options
+  template: src=default_configure_options.j2 dest=/usr/local/phpenv/plugins//php-build/default_configure_options
   tags: php-build-install-php
 
 - name: deploy php definitions {{ php_version }}
@@ -58,24 +57,40 @@
   register: deploy_php_conf
   tags: php-build-install-php
 
-- name: build php
-  shell: |
-      source /etc/profile.d/phpenv.sh
-      if [ $(phpenv versions|grep -c {{ php_version }}) -eq 0 ];then
-        phpenv install {{ php_version }}
-        phpenv rehash
-        chmod 775 /usr/lib64/httpd/modules/libphp5.so
-        cp /usr/lib64/httpd/modules/libphp5.so /usr/local/phpenv/versions/{{ php_version }}/
-        phpenv apache-version {{ php_version }}
-        echo 'changed'
-      fi
-  register: build_php
-  changed_when: build_php.stdout!=''
+- name: Check phpenv Version Installed
+  shell: source /etc/profile; phpenv versions | awk '/{{ php_version }}/{print $2}'
+  register: result
+  changed_when: result.stdout.find('{{ php_version }}') != 0
+  tags: php-build-install-php
+
+- name: Install PHP from phpenv
+  shell: source /etc/profile; phpenv install {{ php_version }}
+  when: result.stdout.find('{{ php_version }}') != 0
+  tags: php-build-install-php
+
+- name: Build phpenv change global
+  shell: source /etc/profile; phpenv global {{ php_version }}; phpenv rehash
+  when: result.stdout.find('{{ php_version }}') != 0
+  tags: php-build-install-php
+
+- name: changed libphp5.so permission
+  file: path=/usr/lib64/httpd/modules/libphp5.so mode=775
+  when: result.stdout.find('{{ php_version }}') != 0
+  tags: php-build-install-php
+
+- name: Copy libphp5.so phpenv/versions
+  file: path=/usr/lib64/httpd/modules/libphp5.so dest=/usr/local/phpenv/versions/{{ php_version }}/
+  when: result.stdout.find('{{ php_version }}') != 0
+  tags: php-build-install-php
+
+- name: phpenv-apache version changed
+  command: phpenv apache-version {{ php_version }}
+  when: result.stdout.find('{{ php_version }}') != 0
   tags: php-build-install-php
 
 - name: restart httpd
   service: name='httpd' state=restarted
-  when: deploy_php_conf.changed or build_php.changed
+  when: result.stdout.find('{{ php_version }}') != 0
   tags: php-build-install-php
 
 - name: Check phpenv Plugin php-build Installed

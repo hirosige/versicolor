@@ -6,9 +6,11 @@
 
 - name: MySQL Install
   yum: pkg=mysql-server state=installed
+  register: installed
   tags: mysql
 
-- file: path=/var/lib/mysql/ owner=mysql group=mysql state=directory recurse=yes
+- name: MySQL changed permission
+  file: path=/var/lib/mysql/ owner=mysql group=mysql state=directory recurse=yes
   tags: mysql
 
 - name: deploy my.cnf
@@ -29,46 +31,45 @@
 
 - name: which mysqld_multi chkconfig added
   shell: chkconfig --list | grep 'mysqld_multi' | awk '{print $1}'
-  register: mysqld_multi_chkconfig
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  when: installed|changed
   tags: mysql
 
 - name: added service mysqld_multi
-  command: chkconfig --add mysqld_multi
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  shell: chkconfig --add mysqld_multi
+  when: installed|changed
   tags: mysql
 
 - name: chkconfig on mysqld_multi
-  command: chkconfig mysqld_multi on
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  shell: chkconfig mysqld_multi on
+  when: installed|changed
   tags: mysql
 
 - name: start MySQL Multi mode
-  command: /etc/init.d/mysqld_multi start
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  shell: /etc/init.d/mysqld_multi start
+  when: installed|changed
   tags: mysql
 
 - name: mysqld_multi started deley wait
   pause: seconds=2
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  when: installed|changed
   tags: mysql
 
 - name: mysqlAdmin setting password mysql_multi1
-  command: mysqladmin -uroot -P3306 -h'{{ mysqlHost }}' password '{{ mysqlDefaultPassword  }}'
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  shell: mysqladmin -uroot -P3306 -h'{{ mysqlHost }}' password '{{ mysqlDefaultPassword  }}'
+  when: installed|changed
   tags: mysql
 
 - name: mysqlAdmin setting password mysql_multi2
-  command: mysqladmin -uroot -P3307 -h'{{ mysqlHost }}' password '{{ mysqlDefaultPassword  }}'
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  shell: mysqladmin -uroot -P3307 -h'{{ mysqlHost }}' password '{{ mysqlDefaultPassword  }}'
+  when: installed|changed
   tags: mysql
 
 - name: delete mysql root user with no passowrd mysql_multi1
-  command: mysql -uroot -P3306 -h'{{ mysqlHost }}'  -p'{{ mysqlDefaultPassword }}' -e "DELETE FROM mysql.user WHERE Password = '';"
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  shell: mysql -uroot -P3306 -h'{{ mysqlHost }}'  -p'{{ mysqlDefaultPassword }}' -e "DELETE FROM mysql.user WHERE Password = '';"
+  when: installed|changed
   tags: mysql
 
 - name: delete mysql root user with no passowrd mysql_multi2
-  command: mysql -uroot -P3307 -h'{{ mysqlHost }}'  -p'{{ mysqlDefaultPassword }}' -e "DELETE FROM mysql.user WHERE Password = '';"
-  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  shell: mysql -uroot -P3307 -h'{{ mysqlHost }}'  -p'{{ mysqlDefaultPassword }}' -e "DELETE FROM mysql.user WHERE Password = '';"
+  when: installed|changed
   tags: mysql

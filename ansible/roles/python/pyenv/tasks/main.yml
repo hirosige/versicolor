@@ -39,6 +39,3 @@
 - name: Build pyenv change global
   shell: source /etc/profile; pyenv global {{ pythonBuildVersion }}; pyenv rehash
   when: result.stdout.find('{{ pythonBuildVersion }}') != 0
-
-
-

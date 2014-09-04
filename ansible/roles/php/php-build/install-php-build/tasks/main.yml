@@ -1,22 +1,22 @@
 - name: check plugins dir
-  command: echo 'has_dir' creates=/usr/local/phpenv/plugins
+  shell: echo 'has_dir'
   register: has_plugins_dir
-  changed_when: has_plugins_dir.stdout!='has_dir'
+  args:
+    creates: /usr/local/phpenv/bin/phpenv/plugins
   tags: install-php-build
 
 - name: Create directory /usr/local/phpenv/plugins
   file: path=/usr/local/phpenv/plugins state=directory mode=775
-  changed_when: has_plugins_dir.changed
+  when: has_plugins_dir|changed
   tags: install-php-build
 
 - name: check php-build installed
   command: echo 'installed' creates=/usr/local/phpenv/plugins/php-build
-  register: php_build_installed
-  changed_when: php_build_installed.stdout!='installed'
+  when: has_plugins_dir|changed
   tags: install-php-build
 
 - name: install php-build
   git: repo=https://github.com/CHH/php-build.git
-       dest=/usr/local/phpenv/plugins
-  changed_when: php_build_installed.stdout!='installed'
+       dest=/usr/local/phpenv/plugins/php-build
+  when: has_plugins_dir|changed
   tags: install-php-build
