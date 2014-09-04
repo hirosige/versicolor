@@ -7,4 +7,5 @@ phpenvBuildVersion: 2.0.0-p353
 phpenvGroup: phpenv,wheel
 redisVersion: 2.6.13
 currentDir: /vagrant
-
+mysqlDefaultPassword: root
+mysqlHost: 127.0.0.1

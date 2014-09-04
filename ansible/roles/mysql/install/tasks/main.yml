@@ -1,4 +1,4 @@
-- name: install dependencis
+- name: install dependencies
   yum: name={{item}} enablerepo=epel state=installed
   with_items:
      - cmake
@@ -8,13 +8,67 @@
   yum: pkg=mysql-server state=installed
   tags: mysql
 
-- name: start MySQL
-  service: name=mysqld state=started enabled=yes
+- file: path=/var/lib/mysql/ owner=mysql group=mysql state=directory recurse=yes
+  tags: mysql
 
 - name: deploy my.cnf
   template: src=my.cnf.j2 dest=/etc/my.cnf owner=mysql group=mysql mode=0755
+  tags: mysql
 
-- name: restart MySQL
-  service: name=mysqld state=restarted enabled=yes
+- name: mysql_multi1 initialize data
+  command: mysql_install_db --datadir=/var/lib/mysql/multi1 --user=mysql creates=/var/lib/mysql/multi1
+  tags: mysql
 
+- name: mysql_multi2 initialize data
+  command: mysql_install_db --datadir=/var/lib/mysql/multi2 --user=mysql creates=/var/lib/mysql/multi2
+  tags: mysql
 
+- name: deploy mysql_multi init script
+  template: src=mysqld_multi.j2 dest=/etc/init.d/mysqld_multi mode=755
+  tags: mysql
+
+- name: which mysqld_multi chkconfig added
+  shell: chkconfig --list | grep 'mysqld_multi' | awk '{print $1}'
+  register: mysqld_multi_chkconfig
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: added service mysqld_multi
+  command: chkconfig --add mysqld_multi
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: chkconfig on mysqld_multi
+  command: chkconfig mysqld_multi on
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: start MySQL Multi mode
+  command: /etc/init.d/mysqld_multi start
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: mysqld_multi started deley wait
+  pause: seconds=2
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: mysqlAdmin setting password mysql_multi1
+  command: mysqladmin -uroot -P3306 -h'{{ mysqlHost }}' password '{{ mysqlDefaultPassword  }}'
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: mysqlAdmin setting password mysql_multi2
+  command: mysqladmin -uroot -P3307 -h'{{ mysqlHost }}' password '{{ mysqlDefaultPassword  }}'
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: delete mysql root user with no passowrd mysql_multi1
+  command: mysql -uroot -P3306 -h'{{ mysqlHost }}'  -p'{{ mysqlDefaultPassword }}' -e "DELETE FROM mysql.user WHERE Password = '';"
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql
+
+- name: delete mysql root user with no passowrd mysql_multi2
+  command: mysql -uroot -P3307 -h'{{ mysqlHost }}'  -p'{{ mysqlDefaultPassword }}' -e "DELETE FROM mysql.user WHERE Password = '';"
+  changed_when: mysqld_multi_chkconfig.stdout.find('mysqld_multi') != 0
+  tags: mysql

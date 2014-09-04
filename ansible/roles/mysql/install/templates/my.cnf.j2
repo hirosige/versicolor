@@ -1,15 +1,19 @@
-[mysqld]
-# Settings user and group are ignored when systemd is used (fedora >= 15).
-# If you need to run mysqld under different user or group, 
-# customize your systemd unit file for mysqld according to the
-# instructions in http://fedoraproject.org/wiki/Systemd
-user=mysql
+[mysqld_multi]
+mysqld     = /usr/bin/mysqld_safe
+mysqladmin = /usr/bin/mysqladmin
 
-datadir=/var/lib/mysql
-socket=/var/lib/mysql/mysql.sock
+[mysqld]
+#datadir=/var/lib/mysql
+#socket=/var/lib/mysql/mysql.sock
 
 # Disabling symbolic-links is recommended to prevent assorted security risks
 symbolic-links=0
+
+# Settings user and group are ignored when systemd is used (fedora >= 15).
+# If you need to run mysqld under a different user or group,
+# customize your systemd unit file for mysqld according to the
+# instructions in http://fedoraproject.org/wiki/Systemd
+user=mysql
 
 # Semisynchronous Replication
 # http://dev.mysql.com/doc/refman/5.5/en/replication-semisync.html
@@ -25,6 +29,8 @@ symbolic-links=0
 
 # http://dev.mysql.com/doc/refman/5.5/en/performance-schema.html
 ;performance_schema
+
+;default-character-set = utf8
 
 #デフォルトMYSQL
 [mysqld1]
@@ -45,7 +51,3 @@ pid-file  = /var/lib/mysql/multi2/mysqld.pid
 [mysqld_safe]
 log-error=/var/log/mysqld.log
 pid-file=/var/run/mysqld/mysqld.pid
-
-[mysql]
-default-character-set = utf8
-socket=/var/lib/mysql/mysql.sock
