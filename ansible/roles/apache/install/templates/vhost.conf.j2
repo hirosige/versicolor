@@ -1,0 +1,8 @@
+<VirtualHost *:80>
+    DocumentRoot "/synced/projects/example.lo"
+    ServerName exmaple.lo
+    <Directory "/synced/projects/example.lo">
+        order deny,allow
+        allow from All
+    </Directory>
+</VirtualHost>
