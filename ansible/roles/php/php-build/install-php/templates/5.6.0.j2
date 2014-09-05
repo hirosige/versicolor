@@ -2,3 +2,5 @@ install_package "http://jp1.php.net/distributions/php-{{ php_version  }}.tar.gz"
 install_pyrus
 install_xdebug "2.2.5"
 enable_builtin_opcache
+configure_option "--with-apxs2" "/usr/sbin/apxs"
+configure_option "--without-pear"
