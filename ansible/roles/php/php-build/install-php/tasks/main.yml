@@ -48,8 +48,8 @@
   template: src=default_configure_options.j2 dest=/usr/local/phpenv/plugins/php-build/share/php-build/default_configure_options
   tags: php-build-install-php
 
-- name: deploy php definitions {{ php_version }}
-  template: src={{ php_version }}.j2 dest=/usr/local/phpenv/plugins/php-build/share/php-build/definitions/{{ php_version }}
+- name: deploy php definitions {{ phpenvBuildVersion }}
+  template: src={{ phpenvBuildVersion }}.j2 dest=/usr/local/phpenv/plugins/php-build/share/php-build/definitions/{{ phpenvBuildVersion }}
   tags: php-build-install-php
 
 - name: deploy php.conf to /etc/httpd/conf.d/php.conf
@@ -58,52 +58,27 @@
   tags: php-build-install-php
 
 - name: Check phpenv Version Installed
-  shell: source /etc/profile; phpenv versions | awk '/{{ php_version }}/{print $2}'
+  shell: source /etc/profile; phpenv versions | awk '/{{ phpenvBuildVersion }}/{print $2}'
   register: result
-  changed_when: result.stdout.find('{{ php_version }}') != 0
+  changed_when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
   tags: php-build-install-php
 
 - name: Install PHP from phpenv
-  shell: source /etc/profile; phpenv install {{ php_version }}
-  when: result.stdout.find('{{ php_version }}') != 0
+  shell: source /etc/profile; phpenv install {{ phpenvBuildVersion }}
+  when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
   tags: php-build-install-php
 
 - name: Build phpenv change global
-  shell: source /etc/profile; phpenv global {{ php_version }}; phpenv rehash
-  when: result.stdout.find('{{ php_version }}') != 0
+  shell: source /etc/profile; phpenv global {{ phpenvBuildVersion }}; phpenv rehash
+  when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
   tags: php-build-install-php
 
 - name: changed libphp5.so permission
   file: path=/usr/lib64/httpd/modules/libphp5.so mode=775
-  when: result.stdout.find('{{ php_version }}') != 0
+  when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
   tags: php-build-install-php
 
 - name: Copy libphp5.so phpenv/versions
-  file: path=/usr/lib64/httpd/modules/libphp5.so dest=/usr/local/phpenv/versions/{{ php_version }}/
-  when: result.stdout.find('{{ php_version }}') != 0
-  tags: php-build-install-php
-
-- name: Create directory /usr/local/phpenv/plugins
-  file: path=/usr/local/phpenv/plugins state=directory mode=775
-  tags: install-php-build
-
-- name: check php-apache-version installed
-  command: echo 'installed' creates=/usr/local/phpenv/plugins/phpenv-apache-version
-  register: has_phpenv_apache_version
-  tags: install-php-build
-
-- name: install phpenv-apache-version
-  git: repo=https://github.com/garamon/phpenv-apache-version.git
-       dest=/usr/local/phpenv/plugins/phpenv-apache-version
-  when: has_phpenv_apache_version|changed
-  tags: install-php-build
-
-- name: phpenv-apache version changed
-  command: phpenv apache-version {{ php_version }}
-  when: result.stdout.find('{{ php_version }}') != 0
-  tags: php-build-install-php
-
-- name: restart httpd
-  service: name='httpd' state=restarted
-  when: result.stdout.find('{{ php_version }}') != 0
+  copy: path=/usr/lib64/httpd/modules/libphp5.so dest=/usr/local/phpenv/versions/{{ phpenvBuildVersion }}/
+  when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
   tags: php-build-install-php

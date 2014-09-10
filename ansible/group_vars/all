@@ -3,7 +3,7 @@ rbenvGroup: rbenv,wheel
 nodeBuildVersion: v0.10.20
 ndenvGroup: ndenv,wheel
 pythonBuildVersion: 3.3.3
-phpenvBuildVersion: 2.0.0-p353
+phpenvBuildVersion: 5.6.0
 phpenvGroup: phpenv,wheel
 redisVersion: 2.6.13
 currentDir: /vagrant
