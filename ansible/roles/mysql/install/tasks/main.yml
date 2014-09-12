@@ -17,6 +17,14 @@
   template: src=my.cnf.j2 dest=/etc/my.cnf owner=mysql group=mysql mode=0755
   tags: mysql
 
+- name: added mysql general-logfile
+  file: path=/var/log/mysql/multi1/query.log  owner=mysql group=mysql mode=0755 recurse=yes state=file
+  tags: mysql
+
+- name: added mysql slow-logfile
+  file: path=/var/log/mysql/multi1/slow.log  owner=mysql group=mysql mode=0755 recurse=yes state=file
+  tags: mysql
+
 - name: mysql_multi1 initialize data
   command: mysql_install_db --datadir=/var/lib/mysql/multi1 --user=mysql creates=/var/lib/mysql/multi1
   tags: mysql
@@ -71,5 +79,14 @@
 
 - name: delete mysql root user with no passowrd mysql_multi2
   shell: mysql -uroot -P3307 -h'{{ mysqlHost }}'  -p'{{ mysqlDefaultPassword }}' -e "DELETE FROM mysql.user WHERE Password = '';"
+  when: installed|changed
+  tags: mysql
+
+- name: mysqld_admin added password
+  lineinfile: dest=/etc/my.cnf
+              state=present
+              regexp='^[mysqladmin]'
+              insertbefore='^[mysqld1]'
+              line='password = root'
   when: installed|changed
   tags: mysql

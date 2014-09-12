@@ -40,6 +40,13 @@ datadir   = /var/lib/mysql/multi1
 socket    = /var/lib/mysql/multi1/mysql.sock
 pid-file  = /var/lib/mysql/multi1/mysqld.pid
 
+general_log=1
+general-log-file = /var/log/mysql/multi1/query.log
+
+log-error        = /var/log/mysql/multi1/error.log
+long_query_time=1
+log-slow-queries=/var/log/mysql/multi1/slow.log
+
 #MYSQLその2
 [mysqld2]
 server-id = 2
@@ -47,6 +54,13 @@ port      = 3307
 datadir   = /var/lib/mysql/multi2
 socket    = /var/lib/mysql/multi2/mysql.sock
 pid-file  = /var/lib/mysql/multi2/mysqld.pid
+
+general_log=1
+general-log-file = /var/log/mysql/multi1/query.log
+
+log-error        = /var/log/mysql/multi1/error.log
+long_query_time=1
+log-slow-queries=/var/log/mysql/multi1/slow.log
 
 [mysqld_safe]
 log-error=/var/log/mysqld.log
