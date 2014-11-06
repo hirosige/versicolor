@@ -17,12 +17,12 @@
   template: src=my.cnf.j2 dest=/etc/my.cnf owner=mysql group=mysql mode=0755
   tags: mysql
 
-- name: added mysql general-logfile
-  file: path=/var/log/mysql/multi1/query.log  owner=mysql group=mysql mode=0755 recurse=yes state=file
+- name: added mysql log-dir (multi1)
+  file: path=/var/log/mysql/multi1/  owner=mysql group=mysql mode=0755 recurse=yes state=directory
   tags: mysql
 
-- name: added mysql slow-logfile
-  file: path=/var/log/mysql/multi1/slow.log  owner=mysql group=mysql mode=0755 recurse=yes state=file
+- name: added mysql log-dir (multi2)
+  file: path=/var/log/mysql/multi2/  owner=mysql group=mysql mode=0755 recurse=yes state=directory
   tags: mysql
 
 - name: mysql_multi1 initialize data

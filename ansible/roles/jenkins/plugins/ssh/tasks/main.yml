@@ -1,0 +1,4 @@
+- name: ssh plugins Install
+  copy: src=ssh.hpi dest=/var/lib/jenkins/plugins/ssh.hpi
+  notify:
+    - restarted jenkins

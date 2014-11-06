@@ -28,7 +28,7 @@
   tags: python
 
 - name: Check pyenv Version Installed
-  shell: source /etc/profile; pyenv versions | awk '/{{ pythonBuildVersion }}/{print $2}'
+  shell: source /etc/profile; pyenv versions | awk '/{{ pythonBuildVersion }}/{print $1,$2}'
   register: result
   changed_when: result.stdout.find('{{ pythonBuildVersion }}') != 0
 

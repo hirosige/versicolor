@@ -27,4 +27,4 @@
   when: result.changed
 
 - name: jenkins started make plugin deley wait
-  pause: seconds=5
+  pause: seconds=2
