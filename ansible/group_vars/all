@@ -1,4 +1,4 @@
-rubyBuildVersion: 2.0.0-p353
+rubyBuildVersion: 2.1.2
 rbenvGroup: rbenv,wheel
 nodeBuildVersion: v0.10.20
 ndenvGroup: ndenv,wheel
