@@ -1,17 +1,16 @@
-- name: virtualbox box file remove force
-  shell: |
-    pwd=$(pwd)
-    box_name=$(cat ${pwd}/../Vagrantfile | grep 'BOX_NAME =' | awk '{print $3}' | sed -e 's/"//g')
-    if [ -d "~/VirtualBox\ VMs/${box_name}" ]; then
-      rm -rf "~/VirtualBox\ VMs/${box_name}"
-      echo "deleted"
-    else
-      echo "not_deleted"
-    fi
-  register: boxes_deleted
-  changed_when: boxes_deleted.stdout == "deleted"
+- name: search terget BoxName
+  shell: cat {{ ansible_env.PWD }}/../Vagrantfile | grep 'BOX_NAME =' | awk '{print $3}' | sed -e 's/"//g'
+  register: box_name
+  changed_when: False
 
-- name: vagrant halt with force
-  shell: vagrant halt --force
+- name: search duplicate virtualbox BoxName
+  shell: VBoxManage list vms | grep -c {{ box_name.stdout }}
+  register: is_box
+  changed_when: is_box.stdout != "1"
+
+- name: delete duplicate virtualbox BoxName
+  shell: VBoxManage unregistervm {{ box_name.stdout }}
+  changed_when: is_box.stdout != "1"
 
 - debug: msg="Next Step is Command to vagrant up --provsion"
+

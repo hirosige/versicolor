@@ -1,1 +1,5 @@
-- homebrew: name=phinze/cask/brew-cask state=present
+- name: added tap caskroom/cask
+  homebrew_tap: tap=caskroom/cask state=present
+
+- name: brew install brew-cask
+  homebrew: name=brew-cask state=latest

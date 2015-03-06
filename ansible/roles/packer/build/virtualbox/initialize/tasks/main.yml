@@ -1,0 +1,8 @@
+- name: Kill process VirtualBox
+  shell: killall VirtualBox
+  register: ret
+  failed_when: ret.rc not in [0, 1]
+  changed_when: False
+
+- name: Create Dir vagrant box dir
+  file: path={{ ansible_env.PWD }}/../packer/vagrant-boxes/virtualbox state=directory recurse=yes mode=775

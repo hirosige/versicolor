@@ -6,3 +6,11 @@
 - name: Install RubyGems rails
   shell: source /etc/profile; gem install rails --no-ri --no-rdoc
   when: result.stdout.find('rails') != 0
+
+- name: added iptables
+  lineinfile: dest=/etc/sysconfig/iptables
+              state=present
+              regexp='^-A INPUT -m state --state NEW -m tcp -p tcp --dport 3000 -j ACCEPT'
+              insertafter='^-A INPUT -m state'
+              line='-A INPUT -m state --state NEW -m tcp -p tcp --dport 3000 -j ACCEPT'
+  when: result.stdout.find('rails') != 0

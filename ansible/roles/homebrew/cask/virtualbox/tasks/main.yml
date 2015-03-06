@@ -1,8 +1,19 @@
 - name: Check for installed apps(virtualbox)
-  shell: brew cask list | awk '/^virtualbox$/{print $1}'
-  register: cask_list 
-  changed_when: cask_list.stdout.find('virtualbox') != 0
+  shell: brew cask list | grep -c virtualbox
+  register: app_installed
+  changed_when: app_installed.stdout != "1"
+
+- name: Check process VirtualBox running
+  shell: ps aux | grep -c MacOS\/VirtualBox
+  register: is_runing
+  changed_when: is_runing.stdout != "1"
+
+- name: Kill process VirtualBox
+  shell: killall VirtualBox
+  register: ret
+  failed_when: ret.rc not in [0, 1]
+  changed_when: False
 
 - name: install cask virtualbox
   shell: brew cask install virtualbox
-  when: cask_list.stdout.find('virtualbox') != 0
+  changed_when: app_installed.stdout != "1"

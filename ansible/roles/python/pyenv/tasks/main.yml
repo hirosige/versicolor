@@ -1,18 +1,24 @@
 - name: Install dependency bzip2-devel
-  yum: name=bzip2-devel state=present
+  yum: name={{item}} enablerepo=epel state=installed
+  with_items:
+    - bzip2-devel
+    - patch
   tags: python
 
 - name: Create pyenv group
   group: name=pyenv state=present
+  tags: python
 
 - name: Check pyenv Exists
   shell: cat /etc/group | grep pyenv;
   register: result
   changed_when: result.stdout.find('pyenv') != 0
+  tags: python
 
 - name: User add pyenv group
   user: name={{ ansible_env.SUDO_USER }} groups=pyenv
   changed_when: result.stdout.find('pyenv') != 0
+  tags: python
 
 - name: Git Clone pyenv
   git: repo=https://github.com/yyuu/pyenv.git
@@ -21,7 +27,8 @@
   tags: python
 
 - name: pyenv Dir change group
-  file: path=/usr/local/pyenv group=rbenv mode=0775 state=directory
+  file: path=/usr/local/pyenv group=pyenv mode=0775 state=directory
+  tags: python
 
 - name: pyenv Profile Settings
   template: src=pyenv.sh.j2 dest=/etc/profile.d/pyenv.sh mode=0644
@@ -33,9 +40,21 @@
   changed_when: result.stdout.find('{{ pythonBuildVersion }}') != 0
 
 - name: Install Python from pyenv
-  shell: source /etc/profile; pyenv install {{ pythonBuildVersion }}
-  when: result.stdout.find('{{ pythonBuildVersion }}') != 0
+  shell: |
+    source /etc/profile;
+    if [ $(pyenv versions | grep -c {{ pythonBuildVersion }}) = 0 ]; then
+      pyenv install {{ pythonBuildVersion }}
+    fi
+  changed_when: result.stdout.find('{{ pythonBuildVersion }}') != 0
+  tags: python
+
+- name: Check pyenv Version Global Now
+  shell: source /etc/profile; pyenv version | awk '/{{ pythonBuildVersion }}/{print $1,$2}'
+  register: result
+  changed_when: result.stdout.find('{{ pythonBuildVersion }}') != 0
+  tags: python
 
 - name: Build pyenv change global
   shell: source /etc/profile; pyenv global {{ pythonBuildVersion }}; pyenv rehash
-  when: result.stdout.find('{{ pythonBuildVersion }}') != 0
+  changed_when: result.stdout.find('{{ pythonBuildVersion }}') != 0
+  tags: python

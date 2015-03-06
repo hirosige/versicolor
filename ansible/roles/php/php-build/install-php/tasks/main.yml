@@ -79,6 +79,6 @@
   tags: php-build-install-php
 
 - name: Copy libphp5.so phpenv/versions
-  copy: path=/usr/lib64/httpd/modules/libphp5.so dest=/usr/local/phpenv/versions/{{ phpenvBuildVersion }}/
-  when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
+  shell: cp /usr/lib64/httpd/modules/libphp5.so /usr/local/phpenv/versions/{{ phpenvBuildVersion }}/libphp5.so
+    creates=/usr/local/phpenv/versions/{{ phpenvBuildVersion }}/libphp5.so
   tags: php-build-install-php

@@ -1,5 +1,5 @@
 - name: Check for installed vagrant plugins (sahara)
-  shell: vagrant plugin list | awk '/^sahara$/{print $1}'
+  shell: vagrant plugin list | awk '/^sahara/{print $1}'
   register: plugins_installed
   changed_when: plugins_installed.stdout.find('sahara') != 0
 

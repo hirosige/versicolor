@@ -6,19 +6,22 @@
 
 - hosts: OSX
   roles:
-    - { role: xcode,                                when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/install,                     when: "ansible_os_family == 'Darwin'" }
+    - { role: homebrew/tap/sanemat/font,            when: "ansible_os_family == 'Darwin'" }
+    - { role: homebrew/tap/homebrew/binary,         when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/cask,                   when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/wget,                   when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/git,                    when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/cask/XQuartz,                when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/brew/packer,                 when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/cask/virtualbox,             when: "ansible_os_family == 'Darwin'" }
+    - { role: homebrew/cask/mysqlworkbench,         when: "ansible_os_family == 'Darwin'" }
     - { role: homebrew/cask/vagrant,                when: "ansible_os_family == 'Darwin'" }
     - { role: vagrant/plugins/vagrant-vbguest }
     - { role: vagrant/plugins/sahara }
-    - { role: packer/build/virtualbox/centos6.4-x86 }
-    - { role: vagrant/up-provision/setup }
+    - { role: projects/kurumomi-server/setup }
+    - { role: packer/build/virtualbox/initialize,    when: "ansible_os_family == 'Darwin'" }
+
 
 - hosts: LOCAL
   sudo: yes
@@ -62,6 +65,7 @@
     - { role: yum/rpmforge }
     - { role: resolv }
     - { role: bcrypt }
+    - { role: git }
     - { role: vim-enhanced/install }
     - { role: vim-enhanced/plugins/neobundle }
     - { role: vim-enhanced/dotfiles }
@@ -72,7 +76,6 @@
     - { role: ruby/gem/bundle }
     - { role: ruby/bundle }
     - { role: ruby/gem/rails }
-    - { role: git }
     - { role: java/openjdk }
     - { role: jenkins/install }
     - { role: jenkins/plugins/rbenv }

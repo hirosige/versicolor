@@ -1,0 +1,8 @@
+- name: Check for installed apps(MysqlWorkBnech)
+  shell: brew cask list | grep -c mysqlworkbench
+  register: app_installed
+  changed_when: app_installed.stdout != "1"
+
+- name: install cask mysqlworkbench
+  shell: brew cask install mysqlworkbench
+  changed_when: app_installed.stdout != "1"

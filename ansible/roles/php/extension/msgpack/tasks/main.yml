@@ -17,11 +17,11 @@
   shell: |
     cd /tmp/msgpack-php
     /usr/local/phpenv/shims/phpize
-    ./configure
+    ./configure --with-php-config=/usr/local/phpenv/shims/php-config
     make && make install
   tags: extension-msgpack
   when: msgpack_stat.stat.exists==false
 
 - name : msgpack settings msgpack.ini
-  template: src=msgpack.ini.j2 dest=/usr/local/phpenv/versions/{{ phpenvBuildVersion }}/etc/conf.d mode=0644
+  template: src=msgpack.ini.j2 dest=/usr/local/phpenv/versions/{{ phpenvBuildVersion }}/etc/conf.d/msgpack.ini mode=0644
   tags: extension-msgpack

@@ -10,14 +10,12 @@
   yum: pkg=jenkins state=installed
   tags: jenkins
 
-- name: Exists File Iptables
-  stat: path=/etc/sysconfig/iptables
-  register: st
-
-- name: Chenged Iptables If Exists File Iptables
-  template: src=iptables.j2 dest=/etc/sysconfig/iptables
-  changed_when: st.stat.isfile is defined
-  register: result
+- name: added iptables
+  lineinfile: dest=/etc/sysconfig/iptables
+              state=present
+              regexp='^-A INPUT -m state --state NEW -m tcp -p tcp --dport {{ iptables.ports.jenkins }} -j ACCEPT'
+              insertafter='^-A INPUT -m state'
+              line='-A INPUT -m state --state NEW -m tcp -p tcp --dport {{ iptables.ports.jenkins }} -j ACCEPT'
 
 - name: started jenkins
   service: name=jenkins state=started
@@ -27,4 +25,4 @@
   when: result.changed
 
 - name: jenkins started make plugin deley wait
-  pause: seconds=2
+  pause: seconds=3

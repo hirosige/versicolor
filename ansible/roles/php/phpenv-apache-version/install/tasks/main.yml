@@ -15,7 +15,7 @@
 
 - name: phpenv-apache version changed
   shell: source /etc/profile; phpenv apache-version {{ phpenvBuildVersion }} > /dev/null
-  #changed_when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
+  changed_when: result.stdout.find('{{ phpenvBuildVersion }}') != 0
   tags: phpenv-apache-version
 
 - name: restart httpd

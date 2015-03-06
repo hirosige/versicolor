@@ -1,0 +1,2 @@
+- homebrew_tap: tap=homebrew/binary state=present
+

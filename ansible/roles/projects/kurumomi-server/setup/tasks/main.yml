@@ -1,0 +1,8 @@
+- name: Create synced folder
+  #debug: var=inventory_dir
+  file: path={{ inventory_dir }}/../../synced state=directory mode=775
+- name: Git Clone kurumomi-server
+  git: repo=git@github.com:KenjiAkami/kurumomi-server.git
+       dest={{ inventory_dir }}/../../synced/kurumomi-server
+       update=no
+

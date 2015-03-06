@@ -1,5 +1,5 @@
 - name: Check for installed vagrant plugins (vagrant-vbguest)
-  shell: vagrant plugin list | awk '/^vagrant-vbguest$/{print $1}'
+  shell: vagrant plugin list | awk '/^vagrant-vbguest/{print $1}'
   register: plugins_installed
   changed_when: plugins_installed.stdout.find('vagrant-vbguest') != 0
 
