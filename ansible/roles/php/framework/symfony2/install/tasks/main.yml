@@ -1,0 +1,8 @@
+- name: Check symfony2 Exists
+  stat: path=/usr/local/bin/symfony
+  register: result
+
+- name: install symfony command
+  get_url: url=http://symfony.com/installer dest=/usr/local/bin/symfony mode=0775
+  when: result.stat.exists == false
+
