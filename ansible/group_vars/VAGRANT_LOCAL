@@ -4,3 +4,4 @@ git:
 iptables:
   ports:
    jenkins: 8080
+   symfony2: 8000

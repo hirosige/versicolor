@@ -19,7 +19,6 @@
     - { role: homebrew/cask/vagrant,                when: "ansible_os_family == 'Darwin'" }
     - { role: vagrant/plugins/vagrant-vbguest }
     - { role: vagrant/plugins/sahara }
-    - { role: projects/kurumomi-server/setup }
     - { role: packer/build/virtualbox/initialize,    when: "ansible_os_family == 'Darwin'" }
 
 
@@ -60,6 +59,9 @@
 
 - hosts: VAGRANT_LOCAL
   sudo: yes
+  handlers:
+    - name: restart iptables
+      service: name=iptables state=restarted
   roles:
     - { role: yum/remi }
     - { role: yum/rpmforge }
@@ -92,6 +94,7 @@
     - { role: php/php-build/install-php-build }
     - { role: php/php-build/install-php }
     - { role: php/phpenv-apache-version/install }
-    - { role: php/composer/install-composer }
+    - { role: php/framework/symfony2/install }
+    - { role: apache/install }
     - { role: php/extension/msgpack }
     - { role: apache/install }
