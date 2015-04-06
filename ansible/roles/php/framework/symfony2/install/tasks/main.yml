@@ -6,3 +6,11 @@
   get_url: url=http://symfony.com/installer dest=/usr/local/bin/symfony mode=0775
   when: result.stat.exists == false
 
+- name: added iptables
+  lineinfile: dest=/etc/sysconfig/iptables
+              state=present
+              regexp='^-A INPUT -m state --state NEW -m tcp -p tcp --dport {{ iptables.ports.symfony2 }} -j ACCEPT'
+              insertafter='^-A INPUT -m state'
+              line='-A INPUT -m state --state NEW -m tcp -p tcp --dport {{ iptables.ports.symfony2 }} -j ACCEPT'
+  notify: restart iptables
+
