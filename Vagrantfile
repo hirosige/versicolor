@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-BOX_NAME = "CentOS-6.4-x86"
+BOX_NAME = "CentOS-6.6-x86"
 
 Vagrant.configure("2") do |config|
   config.vm.box = BOX_NAME
@@ -13,7 +13,7 @@ Vagrant.configure("2") do |config|
 
   config.vm.network :private_network, ip: "192.168.59.103"
 
-  config.vm.synced_folder "synced", "/synced",:nfs => false, :mount_options => ["dmode=777,fmode=777"]
+  config.vm.synced_folder "synced", "/synced",:nfs => true
 
   config.vm.provider :virtualbox do |vb|
      vb.name = BOX_NAME
