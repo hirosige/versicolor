@@ -6,9 +6,9 @@
       "boot_wait": "10s",
       "disk_size": 512000,
       "guest_os_type": "RedHat_64",
-      "iso_checksum": "4a5fa01c81cc300f4729136e28ebe600",
+      "iso_checksum": "eb3c8be6ab668e6d83a118323a789e6c",
       "iso_checksum_type": "md5",
-      "iso_url": "http://ftp.riken.jp/Linux/centos/6.4/isos/x86_64/CentOS-6.4-x86_64-minimal.iso",
+      "iso_url": "http://ftp.riken.jp/Linux/centos/6.6/isos/x86_64/CentOS-6.6-x86_64-minimal.iso",
       "ssh_username": "vagrant",
       "ssh_password": "vagrant",
       "ssh_port": 22,
@@ -56,7 +56,7 @@
   "post-processors": [
     {
       "type": "vagrant",
-      "output": "packer/vagrant-boxes/CentOS-6.4-x86.box"
+      "output": "packer/vagrant-boxes/CentOS-6.6-x86.box"
     }
   ]
 }
