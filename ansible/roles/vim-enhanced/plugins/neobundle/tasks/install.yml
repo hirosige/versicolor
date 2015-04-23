@@ -14,6 +14,9 @@
        update=no
   tags: vim-enhanced
 
+- name: make vimproc linux64.so
+  shell: make chdir=/home/{{ ansible_env.SUDO_USER }}/.vim/bundle/vimproc
+  tags: vim-enhanced
 # dotfileからneobundleを含むdotfileを取得する
 #- name: .vimrc from dotfiles
 #  template: src=vimrc.j2 dest=/home/{{ ansible_env.SUDO_USER }}/.vimrc mode=0644

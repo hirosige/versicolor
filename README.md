@@ -9,24 +9,11 @@ My DevOps repos - An idea, fix, etc. you can send me a PullRequest
 
 ## Quick Start
 
-### OSX
-
-I can start very easily that versicolor to command one run
+OSX only.
 
 ### Requirements Ansible Install
 
-Using to [ryurock/ansible-installer](https://github.com/ryurock/ansible-installer)
-
-```shell
-curl -L https://raw.github.com/ryurock/ansible-installer/master/bin/setup | bash
-# OSX
-source ~/.bash_profile
-# or
-source ~/.bashrc
-
-# Linux
-source /etc/profile
-```
+[ansible](http://www.ansible.com/home)
 
 ### Ansible OSX Install developments setup
 
@@ -47,6 +34,13 @@ sudo password:
 .
 .
 ```
+
+### Create box (virtualbox)
+
+```shell
+packer build --only=virtualbox-iso packer/config.json
+```
+
 
 ### First Time vagrant --provision
 

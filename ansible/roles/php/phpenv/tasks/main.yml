@@ -35,3 +35,6 @@
 
 - name: deploy /etc/profiled.d/phpenv.sh
   template: src=phpenv.sh.j2 dest=/etc/profile.d/phpenv.sh mode=755
+
+- name: deploy /usr/local/phpenv/versions/{{ phpenvBuildVersion }}/etc/conf.d/date.ini
+  template: src=date.ini.j2 dest=/usr/local/phpenv/versions/{{ phpenvBuildVersion }}/etc/conf.d/date.ini mode=755
